@@ -1,7 +1,7 @@
 {
   "name": "create-pwa",
   "type": "module",
-  "version": "0.20.0",
+  "version": "0.0.0",
   "packageManager": "pnpm@9.0.6",
   "description": "PWA Templates",
   "author": "antfu <anthonyfu117@hotmail.com>",
@@ -59,6 +59,7 @@
     "eslint": "^9.2.0",
     "eslint-plugin-antfu": "^2.1.2",
     "kolorist": "^1.8.0",
+    "magicast": "^0.3.4",
     "minimist": "^1.2.8",
     "prompts": "^2.4.2",
     "tsx": "^4.9.1",
