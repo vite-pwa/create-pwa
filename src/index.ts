@@ -9,7 +9,6 @@ import {
   blue,
   cyan,
   green,
-  lightBlue,
   lightGreen,
   lightRed,
   magenta,
@@ -17,6 +16,7 @@ import {
   reset,
   yellow,
 } from 'kolorist'
+import { includePwaAssets } from './pwa-assets'
 
 // Avoids autoconversion to number of the project name by defining that the args
 // non associated with an option ( _ ) needs to be parsed as a string. See #4606
@@ -73,12 +73,14 @@ const FRAMEWORKS: Framework[] = [
         display: 'JavaScript',
         color: yellow,
       },
+      /*
       {
         name: 'custom-create-vue',
         display: 'Customize with create-vue ↗',
         color: green,
         customCommand: 'npm create vue@latest TARGET_DIR',
       },
+*/
       {
         name: 'custom-nuxt',
         display: 'Nuxt ↗',
@@ -97,21 +99,25 @@ const FRAMEWORKS: Framework[] = [
         display: 'TypeScript',
         color: blue,
       },
+      /*
       {
         name: 'react-swc-ts',
         display: 'TypeScript + SWC',
         color: blue,
       },
+*/
       {
         name: 'react',
         display: 'JavaScript',
         color: yellow,
       },
+      /*
       {
         name: 'react-swc',
         display: 'JavaScript + SWC',
         color: yellow,
       },
+*/
       {
         name: 'custom-remix',
         display: 'Remix ↗',
@@ -194,6 +200,7 @@ const FRAMEWORKS: Framework[] = [
       },
     ],
   },
+/*
   {
     name: 'qwik',
     display: 'Qwik',
@@ -236,6 +243,47 @@ const FRAMEWORKS: Framework[] = [
       },
     ],
   },
+*/
+]
+
+type Color = (str: string | number) => string
+
+interface Behavior {
+  name: string
+  display: string
+  color: Color
+}
+
+interface Strategy {
+  name: string
+  display: string
+  color: Color
+}
+
+const PWA_BEHAVIORS: Behavior[] = [
+  {
+    name: 'prompt',
+    display: 'Prompt for update',
+    color: green,
+  },
+  {
+    name: 'claims',
+    display: 'Auto update',
+    color: blue,
+  },
+]
+
+const PWA_STRATEGIES: Strategy[] = [
+  {
+    name: 'generateSW',
+    display: 'generateSW',
+    color: green,
+  },
+  {
+    name: 'injectManifest',
+    display: 'injectManifest',
+    color: blue,
+  },
 ]
 
 const TEMPLATES = FRAMEWORKS.map(
@@ -257,7 +305,7 @@ async function init() {
     targetDir === '.' ? path.basename(path.resolve()) : targetDir
 
   let result: prompts.Answers<
-        'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant'
+        'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant' | 'strategy' | 'behavior' | 'reloadSW' | 'pwaAssets'
     >
 
   prompts.override({
@@ -277,8 +325,7 @@ async function init() {
           },
         },
         {
-          type: () =>
-            !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'select',
+          type: () => !fs.existsSync(targetDir) || isEmpty(targetDir) ? null : 'select',
           name: 'overwrite',
           message: () =>
             `${targetDir === '.'
@@ -319,15 +366,13 @@ async function init() {
             isValidPackageName(dir) || 'Invalid package.json name',
         },
         {
-          type:
-                        argTemplate && TEMPLATES.includes(argTemplate) ? null : 'select',
+          type: argTemplate && TEMPLATES.includes(argTemplate) ? null : 'select',
           name: 'framework',
-          message:
-                        typeof argTemplate === 'string' && !TEMPLATES.includes(argTemplate)
-                          ? reset(
-                                `"${argTemplate}" isn't a valid template. Please choose from below: `,
-                          )
-                          : reset('Select a framework:'),
+          message: typeof argTemplate === 'string' && !TEMPLATES.includes(argTemplate)
+            ? reset(
+              `"${argTemplate}" isn't a valid template. Please choose from below: `,
+            )
+            : reset('Select a framework:'),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
             const frameworkColor = framework.color
@@ -338,8 +383,7 @@ async function init() {
           }),
         },
         {
-          type: (framework: Framework) =>
-            framework && framework.variants ? 'select' : null,
+          type: (framework: Framework) => framework && framework.variants ? 'select' : null,
           name: 'variant',
           message: reset('Select a variant:'),
           choices: (framework: Framework) =>
@@ -350,6 +394,48 @@ async function init() {
                 value: variant.name,
               }
             }),
+        },
+        {
+          type: 'select',
+          name: 'strategy',
+          message: reset('Select a strategy:'),
+          initial: 0,
+          choices: PWA_STRATEGIES.map((strategy) => {
+            const strategyColor = strategy.color
+            return {
+              title: strategyColor(strategy.name),
+              value: strategy,
+            }
+          }),
+        },
+        {
+          type: 'select',
+          name: 'behavior',
+          message: reset('Select a behavior:'),
+          initial: 0,
+          choices: PWA_BEHAVIORS.map((behavior) => {
+            const behaviorColor = behavior.color
+            return {
+              title: behaviorColor(behavior.display),
+              value: behavior,
+            }
+          }),
+        },
+        {
+          type: 'toggle',
+          name: 'reloadSW',
+          message: reset('Enable periodic SW updates?'),
+          initial: false,
+          active: 'yes',
+          inactive: 'no',
+        },
+        {
+          type: 'toggle',
+          name: 'pwaAssets',
+          message: reset('Include PWA Assets Generator?'),
+          initial: true,
+          active: 'yes',
+          inactive: 'no',
         },
       ],
       {
@@ -386,8 +472,7 @@ async function init() {
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
   const isYarn1 = pkgManager === 'yarn' && pkgInfo?.version.startsWith('1.')
 
-  const { customCommand }
-    = FRAMEWORKS.flatMap(f => f.variants).find(v => v.name === template) ?? {}
+  const { customCommand } = FRAMEWORKS.flatMap(f => f.variants).find(v => v.name === template) ?? {}
 
   if (customCommand) {
     const fullCustomCommand = customCommand
@@ -452,6 +537,16 @@ async function init() {
 
   pkg.name = packageName || getProjectName()
 
+  // we need:
+  // 1) include pwa assets dependency: devDependencies, and overrides (npm) or resolutions
+  // - include pwa plugin and the options
+  // - inject favicon and the pwa icons
+  // - include prompt for update sfc component
+  // - include custom service worker
+
+  if (result.pwaAssets)
+    includePwaAssets(pkgManager === 'npm', pkg)
+
   write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
 
   if (isReactSwc)
@@ -469,10 +564,16 @@ async function init() {
   switch (pkgManager) {
     case 'yarn':
       console.log('  yarn')
+      if (result.pwaAssets)
+        console.log('  yarn generate-pwa-icons')
+
       console.log('  yarn dev')
       break
     default:
       console.log(`  ${pkgManager} install`)
+      if (result.pwaAssets)
+        console.log(`  ${pkgManager} run generate-pwa-icons`)
+
       console.log(`  ${pkgManager} run dev`)
       break
   }
