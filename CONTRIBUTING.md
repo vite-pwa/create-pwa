@@ -5,25 +5,21 @@ Hi! We are really excited that you are interested in contributing to `@vite-pwa/
 Refer also to https://github.com/antfu/contribute.
 ## Set up your local development environment
 
-The `@vite-pwa/create-pwa` repo is a monorepo using pnpm workspaces. The package manager used to install and link dependencies must be [pnpm](https://pnpm.io/).
+The package manager used to install and link dependencies must be [pnpm](https://pnpm.io/).
 
-To develop and test the `@vite-pwa/astro` package:
+To develop and test the `@vite-pwa/create-pwa` package:
 
-1. Fork the `@vite-pwa/astro` repository to your own GitHub account and then clone it to your local device.
+1. Fork the `@vite-pwa/create-pwa` repository to your own GitHub account and then clone it to your local device.
 
-2. Ensure using the latest Node.js (^14.18.0 || >=16.12.0)
+2. Ensure using the latest Node.js (^18.0.0 || >=20.0.0)
 
-3. `@vite-pwa/astro` uses pnpm v7. If you are working on multiple projects with different versions of pnpm, it's recommend to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
+3. `@vite-pwa/create-pwa` uses pnpm v9. If you are working on multiple projects with different versions of pnpm, it's recommended to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
 
 4. Check out a branch where you can work and commit your changes:
 ```shell
 git checkout -b my-new-branch
 ```
 
-5. Run `pnpm i` in `@vite-pwa/astro`'s root folder
+5. Run `pnpm i` in `@vite-pwa/create-pwa`'s root folder
 
-6. Run `pnpm run build` in `@vite-pwa/astro`'s root folder.
-
-## Testing changes
-
-From the terminal, change to one of the examples folder and run `pnpm run build && pnpm run preview`.
+6. Run `pnpm run build` in `@vite-pwa/create-pwa`'s root folder.
