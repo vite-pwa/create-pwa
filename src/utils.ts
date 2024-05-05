@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+
 type Entry = [name: string, value: string]
 
 export function addPackageObject(
@@ -22,4 +24,9 @@ export function addPackageObject(
   entries.sort(([a], [b]) => a.localeCompare(b)).forEach(([k, v]) => {
     pkg[key][k] = v
   })
+}
+
+export function editFile(file: string, callback: (content: string) => string) {
+  const content = fs.readFileSync(file, 'utf-8')
+  fs.writeFileSync(file, callback(content), 'utf-8')
 }

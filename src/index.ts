@@ -9,9 +9,10 @@ import {
   red,
   reset,
 } from 'kolorist'
-import { includePwaAssets } from './pwa-assets'
-import type { Framework } from './types'
+import { includeDependencies } from './dependencies'
+import type { Framework, FrameworkVariantKey, PromptsData } from './types'
 import { FRAMEWORKS, PWA_BEHAVIORS, PWA_STRATEGIES } from './prompts'
+import { editFile } from './utils'
 
 // Avoids autoconversion to number of the project name by defining that the args
 // non associated with an option ( _ ) needs to be parsed as a string. See #4606
@@ -40,7 +41,7 @@ async function init() {
     targetDir === '.' ? path.basename(path.resolve()) : targetDir
 
   let result: prompts.Answers<
-        'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant' | 'strategy' | 'behavior' | 'reloadSW' | 'pwaAssets'
+        'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant' | 'projectDescription' | 'themeColor' | 'strategy' | 'behavior' | 'reloadSW' | 'offline'
     >
 
   prompts.override({
@@ -131,6 +132,18 @@ async function init() {
             }),
         },
         {
+          type: 'text',
+          name: 'projectDescription',
+          message: reset('Project description:'),
+        },
+        {
+          type: 'text',
+          name: 'themeColor',
+          message: reset('Theme color:'),
+          initial: '#ffffff',
+          validate: (color: string) => /^#[0-9A-F]{6}$/i.test(color) || 'Invalid color',
+        },
+        {
           type: 'select',
           name: 'strategy',
           message: reset('Select a strategy:'),
@@ -166,9 +179,9 @@ async function init() {
         },
         {
           type: 'toggle',
-          name: 'pwaAssets',
-          message: reset('Include PWA Assets Generator?'),
-          initial: true,
+          name: 'offline',
+          message: reset('Show offline ready prompt?'),
+          initial: false,
           active: 'yes',
           inactive: 'no',
         },
@@ -186,7 +199,18 @@ async function init() {
   }
 
   // user choice associated with prompts
-  const { framework, overwrite, packageName, variant } = result
+  const {
+    framework,
+    overwrite,
+    packageName,
+    projectDescription,
+    themeColor,
+    variant,
+    behavior,
+    reloadSW,
+    strategy,
+    offline,
+  } = result
 
   const root = path.join(cwd, targetDir)
 
@@ -201,6 +225,18 @@ async function init() {
   if (template.includes('-swc')) {
     isReactSwc = true
     template = template.replace('-swc', '')
+  }
+
+  const promptsData: PromptsData = {
+    rootPath: root,
+    name: packageName || getProjectName(),
+    description: projectDescription,
+    themeColor,
+    framework: template as FrameworkVariantKey,
+    customServiceWorker: strategy === 'injectManifest',
+    prompt: behavior === 'prompt',
+    offline,
+    reloadSW,
   }
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
@@ -243,8 +279,7 @@ async function init() {
     const { status } = spawn.sync(command, replacedArgs, {
       stdio: 'inherit',
     })
-    // TODO: include customizations for the custom command if present
-    // TODO: any meta fw should be included here
+    await import('./customize').then(({ customize }) => customize(promptsData))
     process.exit(status ?? 0)
   }
 
@@ -278,13 +313,14 @@ async function init() {
   // 1) include pwa assets dependency: devDependencies, and overrides (npm) or resolutions
   // - include pwa plugin and the options
   // - inject favicon and the pwa icons
-  // - include prompt for update sfc component
+  // - include prompt for update/offline ready sfc component
   // - include custom service worker
 
-  // pwa assets generator always included
-  includePwaAssets(pkgManager === 'npm', pkg)
+  includeDependencies(pkgManager === 'npm', pkg)
 
   write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
+
+  await import('./customize').then(({ customize }) => customize(promptsData))
 
   if (isReactSwc)
     setupReactSwc(root, template.endsWith('-ts'))
@@ -301,16 +337,12 @@ async function init() {
   switch (pkgManager) {
     case 'yarn':
       console.log('  yarn')
-      if (result.pwaAssets)
-        console.log('  yarn generate-pwa-icons')
-
+      console.log('  yarn generate-pwa-icons')
       console.log('  yarn dev')
       break
     default:
       console.log(`  ${pkgManager} install`)
-      if (result.pwaAssets)
-        console.log(`  ${pkgManager} run generate-pwa-icons`)
-
+      console.log(`  ${pkgManager} run generate-pwa-icons`)
       console.log(`  ${pkgManager} run dev`)
       break
   }
@@ -394,11 +426,6 @@ function setupReactSwc(root: string, isTs: boolean) {
       return content.replace('@vitejs/plugin-react', '@vitejs/plugin-react-swc')
     },
   )
-}
-
-function editFile(file: string, callback: (content: string) => string) {
-  const content = fs.readFileSync(file, 'utf-8')
-  fs.writeFileSync(file, callback(content), 'utf-8')
 }
 
 init().catch((e) => {

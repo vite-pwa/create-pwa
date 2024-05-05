@@ -1,4 +1,4 @@
-import { blue, cyan, green, lightGreen, lightRed, magenta, red, yellow } from 'kolorist'
+import { blue, cyan, green, lightBlue, lightGreen, lightRed, magenta, red, yellow } from 'kolorist'
 import type { Behavior, Framework, Strategy } from './types'
 
 export const FRAMEWORKS: Framework[] = [
@@ -161,50 +161,52 @@ export const FRAMEWORKS: Framework[] = [
       },
     ],
   },
-  /*
+  {
+    name: 'qwik',
+    display: 'Qwik',
+    color: lightBlue,
+    variants: [
+      /*
+      {
+        name: 'qwik-ts',
+        display: 'TypeScript',
+        color: lightBlue,
+      },
       {
         name: 'qwik',
-        display: 'Qwik',
+        display: 'JavaScript',
+        color: yellow,
+      },
+*/
+      {
+        name: 'custom-qwik-city',
+        display: 'QwikCity ↗',
         color: lightBlue,
-        variants: [
-          {
-            name: 'qwik-ts',
-            display: 'TypeScript',
-            color: lightBlue,
-          },
-          {
-            name: 'qwik',
-            display: 'JavaScript',
-            color: yellow,
-          },
-          {
-            name: 'custom-qwik-city',
-            display: 'QwikCity ↗',
-            color: lightBlue,
-            customCommand: 'npm create qwik@latest basic TARGET_DIR',
-          },
-        ],
+        customCommand: 'npm create qwik@latest basic TARGET_DIR',
+      },
+    ],
+  },
+/*
+  {
+    name: 'others',
+    display: 'Others',
+    color: reset,
+    variants: [
+      {
+        name: 'create-vite-extra',
+        display: 'create-vite-extra ↗',
+        color: reset,
+        customCommand: 'npm create vite-extra@latest TARGET_DIR',
       },
       {
-        name: 'others',
-        display: 'Others',
+        name: 'create-electron-vite',
+        display: 'create-electron-vite ↗',
         color: reset,
-        variants: [
-          {
-            name: 'create-vite-extra',
-            display: 'create-vite-extra ↗',
-            color: reset,
-            customCommand: 'npm create vite-extra@latest TARGET_DIR',
-          },
-          {
-            name: 'create-electron-vite',
-            display: 'create-electron-vite ↗',
-            color: reset,
-            customCommand: 'npm create electron-vite@latest TARGET_DIR',
-          },
-        ],
+        customCommand: 'npm create electron-vite@latest TARGET_DIR',
       },
-    */
+    ],
+  },
+*/
 ]
 
 export const PWA_BEHAVIORS: Behavior[] = [

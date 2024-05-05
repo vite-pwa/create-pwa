@@ -1,6 +1,6 @@
 import { addPackageObject } from './utils'
 
-export function includePwaAssets(npmPM: boolean, pkg: any) {
+export function includeDependencies(npmPM: boolean, pkg: any) {
   addPackageObject(
     'scripts',
     [['generate-pwa-icons', 'pwa-assets-generator']],
@@ -9,7 +9,7 @@ export function includePwaAssets(npmPM: boolean, pkg: any) {
   )
   addPackageObject(
     'devDependencies',
-    [['@vite-pwa/assets-generator', '^0.2.4']],
+    [['@vite-pwa/assets-generator', '^0.2.4'], ['workbox-window', '^7.1.0']],
     pkg,
   )
   addPackageObject(

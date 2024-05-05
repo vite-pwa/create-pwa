@@ -36,3 +36,15 @@ export interface Strategy {
   display: string
   color: ColorFunc
 }
+
+export interface PromptsData {
+  rootPath: string
+  name: string
+  description?: string
+  themeColor: string
+  framework: FrameworkVariantKey
+  customServiceWorker?: boolean
+  prompt: boolean
+  reloadSW: boolean
+  offline: boolean
+}
