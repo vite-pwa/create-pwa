@@ -15,3 +15,4 @@
 - [ ] `vitepress` template
 - [ ] `sveltekit` template
 - [ ] `qkik-city` template
+- [ ] remove unused templates
