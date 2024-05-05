@@ -243,6 +243,8 @@ async function init() {
     const { status } = spawn.sync(command, replacedArgs, {
       stdio: 'inherit',
     })
+    // TODO: include customizations for the custom command if present
+    // TODO: any meta fw should be included here
     process.exit(status ?? 0)
   }
 
@@ -279,8 +281,8 @@ async function init() {
   // - include prompt for update sfc component
   // - include custom service worker
 
-  if (result.pwaAssets)
-    includePwaAssets(pkgManager === 'npm', pkg)
+  // pwa assets generator always included
+  includePwaAssets(pkgManager === 'npm', pkg)
 
   write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
 
