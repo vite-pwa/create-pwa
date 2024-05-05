@@ -35,7 +35,7 @@ export function customize(prompts: PromptsData) {
           ts ? '// srcDir: \'./src/service-worker/\',' : '// srcDir: \'./service-worker/\',',
           ts ? 'srcDir: \'./src/service-worker/\',' : 'srcDir: \'./service-worker/\',',
         )
-      newContent = newContent.replace('// filename: \'sw.js\',', `filename: '${prompt ? 'prompt' : 'claims'}-sw.js',`)
+        .replace('// filename: \'sw.js\',', `filename: '${prompt ? 'prompt' : 'claims'}-sw.js',`)
     }
 
     return newContent
