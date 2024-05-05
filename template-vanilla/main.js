@@ -8,7 +8,7 @@ const app = document.querySelector('#app')
 app.innerHTML = `
   <div>
     <a href="https://vitejs.dev" target="_blank">
-      <img src="${appLogo}" class="logo" alt="Vite logo" />
+      <img src="${appLogo}" class="logo" alt="Vite PWA logo" />
     </a>
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
       <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
@@ -29,12 +29,14 @@ app.innerHTML = `
     <div class="message">
       <span id="toast-message"></span>
     </div>
-    <button id="pwa-refresh">
-      Reload
-    </button>
-    <button id="pwa-close">
-      Close
-    </button>
+    <div class="buttons">
+      <button id="pwa-refresh" type="button">
+        Reload
+      </button>
+      <button id="pwa-close" type="button">
+        Close
+      </button>
+    </div>
   </div>
 `
 

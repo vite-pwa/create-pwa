@@ -37,9 +37,12 @@ export interface Strategy {
   color: ColorFunc
 }
 
+export type PackageJsonEntry = [name: string, value: string]
+
 export interface PromptsData {
   rootPath: string
   name: string
+  shortName: string
   description?: string
   themeColor: string
   framework: FrameworkVariantKey
@@ -47,4 +50,5 @@ export interface PromptsData {
   prompt: boolean
   reloadSW: boolean
   offline: boolean
+  pwaAssets: boolean
 }

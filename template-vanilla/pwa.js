@@ -39,20 +39,65 @@ export function initPWA(app) {
         })
     }
 
+    let swActivated = false
+    // PERIODIC_SYNC_COMMENT
+    const period = 0
+
     window.addEventListener('load', () => {
         pwaCloseBtn.addEventListener('click', () => hidePwaToast(true))
         refreshSW = registerSW({
             immediate: true,
             onOfflineReady() {
-                // OFFLINE_COMMENT
                 pwaToastMessage.innerHTML = 'App ready to work offline'
                 showPwaToast(true)
             },
             onNeedRefresh() {
-                // PROMPT_COMMENT
                 pwaToastMessage.innerHTML = 'New content available, click on reload button to update'
                 showPwaToast(false)
             },
+            onRegisteredSW(swUrl, r) {
+                // PERIODIC_SYNC_COMMENT
+                if (r?.active?.state === 'activated') {
+                    swActivated = true
+                    registerPeriodicSync(period, swUrl, r)
+                }
+                else if (r?.installing) {
+                    r.installing.addEventListener('statechange', (e) => {
+                        /**@type {ServiceWorker}*/
+                        const sw = e.target
+                        swActivated = sw.state === 'activated'
+                        if (swActivated)
+                            registerPeriodicSync(period, swUrl, r)
+                    })
+                }
+            },
         })
     })
+}
+
+/**
+ * This function will register a periodic sync check every hour, you can modify the interval as needed.
+ *
+ * @param period {number}
+ * @param swUrl {string}
+ * @param r {ServiceWorkerRegistration}
+ */
+function registerPeriodicSync(period, swUrl, r) {
+    if (period <= 0) return
+
+    setInterval(async () => {
+        if (typeof navigator !== 'undefined' && !navigator.onLine)
+            return
+
+        const resp = await fetch(swUrl, {
+            cache: 'no-store',
+            headers: {
+                'cache': 'no-store',
+                'cache-control': 'no-cache',
+            },
+        })
+
+        if (resp?.status === 200)
+            await r.update()
+    }, period)
 }

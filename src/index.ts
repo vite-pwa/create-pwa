@@ -41,7 +41,7 @@ async function init() {
     targetDir === '.' ? path.basename(path.resolve()) : targetDir
 
   let result: prompts.Answers<
-        'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant' | 'projectDescription' | 'themeColor' | 'strategy' | 'behavior' | 'reloadSW' | 'offline'
+        'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant' | 'pwaName' | 'pwaShortName' | 'pwaDescription' | 'themeColor' | 'strategy' | 'behavior' | 'reloadSW' | 'offline' | 'pwaAssets'
     >
 
   prompts.override({
@@ -133,8 +133,22 @@ async function init() {
         },
         {
           type: 'text',
-          name: 'projectDescription',
-          message: reset('Project description:'),
+          name: 'pwaName',
+          message: reset('PWA Name:'),
+          initial: () => getProjectName(),
+          validate: (name: string) => name.length > 0 || 'PWA Name is required',
+        },
+        {
+          type: 'text',
+          name: 'pwaShortName',
+          message: reset('PWA Short Name:'),
+          initial: () => getProjectName(),
+          validate: (name: string) => name.length > 0 || 'PWA Short Name is required',
+        },
+        {
+          type: 'text',
+          name: 'pwaDescription',
+          message: reset('PWA Description:'),
         },
         {
           type: 'text',
@@ -185,6 +199,14 @@ async function init() {
           active: 'yes',
           inactive: 'no',
         },
+        {
+          type: 'toggle',
+          name: 'pwaAssets',
+          message: reset('Generate PWA Assets Icons on the fly?'),
+          initial: true,
+          active: 'yes',
+          inactive: 'no',
+        },
       ],
       {
         onCancel: () => {
@@ -203,13 +225,16 @@ async function init() {
     framework,
     overwrite,
     packageName,
-    projectDescription,
+    pwaName,
+    pwaShortName,
+    pwaDescription,
     themeColor,
     variant,
     behavior,
     reloadSW,
     strategy,
     offline,
+    pwaAssets,
   } = result
 
   const root = path.join(cwd, targetDir)
@@ -227,17 +252,25 @@ async function init() {
     template = template.replace('-swc', '')
   }
 
+  console.log(strategy)
+  console.log(template)
+  console.log(behavior)
+  console.log(reloadSW)
   const promptsData: PromptsData = {
     rootPath: root,
-    name: packageName || getProjectName(),
-    description: projectDescription,
+    name: pwaName,
+    shortName: pwaShortName,
+    description: pwaDescription,
     themeColor,
     framework: template as FrameworkVariantKey,
-    customServiceWorker: strategy === 'injectManifest',
-    prompt: behavior === 'prompt',
+    customServiceWorker: strategy.name === 'injectManifest',
+    prompt: behavior.name === 'prompt',
     offline,
     reloadSW,
+    pwaAssets,
   }
+
+  console.log(promptsData)
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
@@ -309,14 +342,7 @@ async function init() {
 
   pkg.name = packageName || getProjectName()
 
-  // we need:
-  // 1) include pwa assets dependency: devDependencies, and overrides (npm) or resolutions
-  // - include pwa plugin and the options
-  // - inject favicon and the pwa icons
-  // - include prompt for update/offline ready sfc component
-  // - include custom service worker
-
-  includeDependencies(pkgManager === 'npm', pkg)
+  includeDependencies(promptsData, pkgManager === 'npm', pkg)
 
   write('package.json', `${JSON.stringify(pkg, null, 2)}\n`)
 

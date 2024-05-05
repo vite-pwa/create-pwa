@@ -1,10 +1,9 @@
 import fs from 'node:fs'
-
-type Entry = [name: string, value: string]
+import type { PackageJsonEntry } from './types'
 
 export function addPackageObject(
   key: 'scripts' | 'devDependencies' | 'overrides' | 'resolutions',
-  entry: Entry[],
+  entry: PackageJsonEntry[],
   pkg: any,
   sort = true,
 ) {
