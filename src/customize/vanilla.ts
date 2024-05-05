@@ -15,7 +15,8 @@ export function customize(prompts: PromptsData) {
     reloadSW,
     pwaAssets,
   } = prompts
-  const viteConfig = `${rootPath}/vite.config.${framework === 'vanilla' ? 'j' : 't'}s`
+  const ts = framework === 'vanilla-ts'
+  const viteConfig = `${rootPath}/vite.config.${ts ? 't' : 'j'}s`
   editFile(viteConfig, (content) => {
     let newContent = content
       .replace('Application name', `${name}`)
@@ -30,13 +31,16 @@ export function customize(prompts: PromptsData) {
 
     if (customServiceWorker) {
       newContent = newContent
-        .replace('// srcDir: \'./service-worker/\',', 'srcDir: \'./service-worker/\',')
-        .replace('// filename: \'sw.js\',', `filename: '${prompt ? 'prompt' : 'claims'}-sw.js',`)
+        .replace(
+          ts ? '// srcDir: \'./src/service-worker/\',' : '// srcDir: \'./service-worker/\',',
+          ts ? 'srcDir: \'./src/service-worker/\',' : 'srcDir: \'./service-worker/\',',
+        )
+      newContent = newContent.replace('// filename: \'sw.js\',', `filename: '${prompt ? 'prompt' : 'claims'}-sw.js',`)
     }
 
     return newContent
   })
-  editFile(`${rootPath}/pwa.${framework === 'vanilla' ? 'j' : 't'}s`, (content) => {
+  editFile(`${rootPath}/${ts ? 'src/' : ''}pwa.${ts ? 't' : 'j'}s`, (content) => {
     let newContent = content
       .replace('OFFLINE_COMMENT', `${offline ? 'comment out the next 2 lines to show offline ready prompt' : 'uncomment the next 2 lines to hide offline ready prompt'}`)
 
@@ -65,7 +69,9 @@ export function customize(prompts: PromptsData) {
   editFile(`${rootPath}/index.html`, (content) => {
     return pwaAssets
       ? content.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg" />', '')
-      : content.replace('Vite VanillaJS PWA', `'${name}'`)
+      : content
+        .replace('Vite VanillaJS PWA', `'${name}'`)
+        .replace('Vite TypeScript PWA', `'${name}'`)
         .replace(
           '<link rel="icon" type="image/svg+xml" href="/favicon.svg" />',
         `    <meta name="theme-color" content="${themeColor}">
@@ -74,5 +80,10 @@ export function customize(prompts: PromptsData) {
     <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png">
 `,
         )
+  })
+  editFile(`${rootPath}/${ts ? 'src/' : ''}/main.${ts ? 't' : 'j'}s`, (content) => {
+    return content
+      .replace('Vite VanillaJS PWA', `'${name}'`)
+      .replace('Vite TypeScript PWA', `'${name}'`)
   })
 }

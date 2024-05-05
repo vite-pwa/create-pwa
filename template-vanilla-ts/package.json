@@ -11,6 +11,7 @@
   "devDependencies": {
     "typescript": "^5.2.2",
     "vite": "^5.2.10",
-    "vite-plugin-pwa": "^0.20.0"
+    "vite-plugin-pwa": "^0.20.0",
+    "workbox-window": "^7.1.0"
   }
 }
