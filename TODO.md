@@ -14,5 +14,5 @@
 - [ ] `remix` template
 - [ ] `vitepress` template
 - [ ] `sveltekit` template
-- [ ] `qkik-city` template
+- [ ] `qwik-city` template
 - [ ] remove unused templates
