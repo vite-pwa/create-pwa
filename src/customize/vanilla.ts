@@ -3,7 +3,6 @@ import { generateCode, parseModule } from 'magicast'
 import { addVitePlugin } from 'magicast/helpers'
 import type { PromptsData } from '../types'
 import { editFile } from '../utils'
-import type { PWAOptions } from '../pwa'
 import { preparePWAOptions } from '../pwa'
 import { MagicastViteOptions } from '../vite'
 
@@ -81,19 +80,6 @@ import { defineConfig } from 'vite'
 export default defineConfig({})
 `)
 
-  const options: PWAOptions = {
-    includeAssets: ts ? ['favicon.svg', 'favicon.ico', 'typescript.svg'] : ['favicon.svg', 'favicon.ico', 'javascript.svg'],
-    workbox: {
-      cleanupOutdatedCaches: true,
-      clientsClaim: true,
-    },
-  }
-
-  if (ts) {
-    options.workbox.globPatterns = ['**/*.{js,css,html,svg}']
-    options.injectManifest = { globPatterns: ['**/*.{js,css,html,svg}'] }
-  }
-
   addVitePlugin(viteConf, {
     from: 'vite-plugin-pwa',
     imported: 'VitePWA',
@@ -102,7 +88,16 @@ export default defineConfig({})
       ts,
       prompts,
 `${ts ? 'src/' : ''}service-worker`,
-options,
+{
+  workbox: {
+    globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+    cleanupOutdatedCaches: true,
+    clientsClaim: true,
+  },
+  injectManifest: {
+    globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+  },
+},
     ),
   })
   editFile(`${rootPath}/vite.config.${ts ? 't' : 'j'}s`, () => {

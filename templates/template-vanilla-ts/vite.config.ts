@@ -11,7 +11,6 @@ export default defineConfig({
             // filename: 'sw.js',
             registerType: 'prompt',
             injectRegister: false,
-            includeAssets: ['favicon.svg', 'favicon.ico'],
             pwaAssets: { disabled: false, config: true, htmlPreset: '2023', overrideManifestIcons: true },
             manifest: {
                 name: 'TypeScript Vite PWA',
@@ -44,14 +43,14 @@ export default defineConfig({
             // only when using strategies 'generateSW'
             // this entry WILL BE IGNORED when using strategies 'injectManifest'
             workbox: {
-                globPatterns: ['**/*.{js,css,html,svg}'],
+                globPatterns: ['**/*.{js,css,html,svg,png,svg,ico}'],
                 cleanupOutdatedCaches: true,
                 clientsClaim: true,
             },
             // only when using strategies 'injectManifest'
             // this entry WILL BE IGNORED when using strategies 'generateSW'
             injectManifest: {
-                globPatterns: ['**/*.{js,css,html,svg}'],
+                globPatterns: ['**/*.{js,css,html,svg,png,svg,ico}'],
             },
             devOptions: {
                 enabled: false,
