@@ -12,10 +12,12 @@
     "vue": "^3.4.26"
   },
   "devDependencies": {
+    "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-vue": "^5.0.4",
     "typescript": "^5.2.2",
     "vite": "^5.2.10",
     "vite-plugin-pwa": "^0.20.0",
-    "vue-tsc": "^2.0.16"
+    "vue-tsc": "^2.0.16",
+    "workbox-window": "^7.1.0"
   }
 }
