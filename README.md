@@ -71,18 +71,18 @@ Read the [📖 documentation](https://vite-pwa-org.netlify.app/guide/scaffolding
 Our plan is to release the first version when all Vite templates are ready:
 - [x] `VanillaJS` and `TypeScript` templates
 - [x] `Vue` and `Vue + TypeScript` templates
+- [ ] `Lit` and `Lit + TypeScript` templates
+- [ ] `Svelte` and `Svelte + TypeScript` templates
 - [ ] `React` and `React + TypeScript` templates
 - [ ] `Preact` and `Preact + TypeScript` templates
-- [ ] `Svelte` and `Svelte + TypeScript` templates
 - [ ] `SolidJS` and `SolidJS + TypeScript` templates
-- [ ] `Lit` and `Lit + TypeScript` templates
 
 Later we will add support for meta-frameworks:
-- [ ] `Astro` template
 - [ ] `Nuxt 3` template
+- [ ] `SvelteKit` template
+- [ ] `Astro` template
 - [ ] `Remix` template
 - [ ] `VitePress` template
-- [ ] `SvelteKit` template
 - [ ] `Qwik City` template
 
 You can check the progress in the [TODO](./TODO.md) file, previous task lists will be also updated.
