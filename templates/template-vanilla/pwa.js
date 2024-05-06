@@ -86,7 +86,7 @@ function registerPeriodicSync(period, swUrl, r) {
     if (period <= 0) return
 
     setInterval(async () => {
-        if (typeof navigator !== 'undefined' && !navigator.onLine)
+        if ('onLine' in navigator && !navigator.onLine)
             return
 
         const resp = await fetch(swUrl, {
