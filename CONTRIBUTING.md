@@ -3,6 +3,7 @@
 Hi! We are really excited that you are interested in contributing to `@vite-pwa/astro`. Before submitting your contribution, please make sure to take a moment and read through the following guide.
 
 Refer also to https://github.com/antfu/contribute.
+
 ## Set up your local development environment
 
 The package manager used to install and link dependencies must be [pnpm](https://pnpm.io/).
