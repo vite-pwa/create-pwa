@@ -85,6 +85,10 @@ Later we will add support for meta-frameworks:
 - [ ] `sveltekit` template
 - [ ] `qwik-city` template
 
+You can check the progress in the [TODO](./TODO.md) file, previous task lists will be also updated.
+
+If you want to contribute, read the [CONTRIBUTING](./CONTRIBUTING.md) guide.
+
 ## 📄 License
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Anthony Fu](https://github.com/antfu)
