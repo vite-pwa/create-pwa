@@ -23,3 +23,13 @@ git checkout -b my-new-branch
 5. Run `pnpm i` in `@vite-pwa/create-pwa`'s root folder
 
 6. Run `pnpm run build` in `@vite-pwa/create-pwa`'s root folder.
+
+7. Change to `examples` folder and run `node ../index.js` to test the changes: don't add the created folder to git.
+
+## Adding a new template
+
+If you're including a new template, follow previous steps, you'll need to add `enabled: true` to the corresponding template in `src/prompts.ts` module.
+
+Our suggestion is to run the template creation process, include/modify the assets and then copy it to the corresponding template folder.
+
+To test the new template, run it outside the project folder, we can later add it to the `examples` folder.
