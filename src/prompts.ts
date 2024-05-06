@@ -12,11 +12,13 @@ export const FRAMEWORKS = (<Framework[]>[
         name: 'vanilla-ts',
         display: 'TypeScript',
         color: blue,
+        enabled: true,
       },
       {
         name: 'vanilla',
         display: 'JavaScript',
         color: yellow,
+        enabled: true,
       },
     ],
   },
