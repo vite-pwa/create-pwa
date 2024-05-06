@@ -26,7 +26,7 @@ export function preparePWAOptions(
   if (customServiceWorker) {
     pwaOptions.strategies = 'injectManifest'
     pwaOptions.srcDir = swFolder
-    pwaOptions.filename = swName(swFolder, ts)
+    pwaOptions.filename = swName(ts)
   }
 
   pwaOptions.registerType = prompt ? 'prompt' : 'autoUpdate'
@@ -86,6 +86,6 @@ export function preparePWAOptions(
   return pwaOptions
 }
 
-function swName(path: string, ts: boolean) {
-  return `${path}/sw.${ts ? 't' : 'j'}s`
+function swName(ts: boolean) {
+  return `sw.${ts ? 't' : 'j'}s`
 }
