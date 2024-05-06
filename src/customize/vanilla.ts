@@ -78,7 +78,8 @@ export function customize(prompts: PromptsData) {
   const viteConf = parseModule(`
 import { defineConfig } from 'vite'
 
-export default defineConfig({})`)
+export default defineConfig({})
+`)
 
   const options: PWAOptions = {
     includeAssets: ts ? ['favicon.svg', 'favicon.ico', 'typescript.svg'] : ['favicon.svg', 'favicon.ico', 'javascript.svg'],
