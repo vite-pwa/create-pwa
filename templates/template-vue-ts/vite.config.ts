@@ -16,7 +16,7 @@ export default defineConfig({
       injectRegister: false,
       pwaAssets: { disabled: false, config: true, htmlPreset: '2023', overrideManifestIcons: true },
       manifest: {
-        name: 'Vue TS Vite PWA',
+        name: 'Vite PWA Vue',
         short_name: 'Vite PWA',
         theme_color: '#ffffff',
         icons: [
@@ -50,7 +50,14 @@ export default defineConfig({
       },
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,svg,png,svg,ico}'],
-      }
+      },
+      devOptions: {
+        enabled: false,
+        navigateFallback: 'index.html',
+        suppressWarnings: true,
+        /* when using generateSW the PWA plugin will switch to classic */
+        type: 'module',
+      },
     })
   ],
 })
