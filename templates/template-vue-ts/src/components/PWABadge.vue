@@ -67,7 +67,7 @@ function close() {
 <template>
   <div
       v-if="offlineReady || needRefresh"
-      id="pwa-toast"
+      class="pwa-toast"
       aria-labelledby="toast-message"
       role="alert"
   >
@@ -77,10 +77,10 @@ function close() {
       </span>
     </div>
     <div class="buttons">
-      <button v-if="needRefresh" @click="updateServiceWorker()">
+      <button v-if="needRefresh" type="button" class="reload" @click="updateServiceWorker()">
         Reload
       </button>
-      <button @click="close">
+      <button type="button" @click="close">
         Close
       </button>
     </div>
@@ -88,7 +88,7 @@ function close() {
 </template>
 
 <style scoped>
-#pwa-toast {
+.pwa-toast {
   position: fixed;
   right: 0;
   bottom: 0;
@@ -101,26 +101,20 @@ function close() {
   box-shadow: 3px 4px 5px 0 #8885;
   display: grid;
 }
-#pwa-toast .message {
+.pwa-toast .message {
   margin-bottom: 8px;
 }
-#pwa-toast .buttons {
+.pwa-toast .buttons {
   display: flex;
 }
-#pwa-toast button {
+.pwa-toast button {
   border: 1px solid #8885;
   outline: none;
   margin-right: 5px;
   border-radius: 2px;
   padding: 3px 10px;
 }
-#pwa-toast.show {
-  visibility: visible;
-}
-button#pwa-refresh {
-  display: none;
-}
-#pwa-toast.show.refresh button#pwa-refresh {
+.pwa-toast button.reload {
   display: block;
 }
 </style>
