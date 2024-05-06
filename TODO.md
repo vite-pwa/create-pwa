@@ -3,7 +3,7 @@
 - [ ] Unify templates: right now `vanilla` and `vanilla-ts` including stuff differently 
 - [ ] Extract utilities from vanilla customizations to manipulate stuff: for example `vite.config.[j|t]s`
 - [x] `vanilla` and `vanilla-ts` templates
-- [ ] `vue` and `vue-ts` templates: WIP (userquin)
+- [x] `vue` and `vue-ts` templates
 - [ ] `react` and `react-ts` templates
 - [ ] `preact` and `preact-ts` templates
 - [ ] `svelte` and `svelte-ts` templates
