@@ -1,7 +1,7 @@
 # Pending tasks
 
 - [ ] Unify templates: right now `vanilla` and `vanilla-ts` including stuff differently 
-- [ ] Extract utilities from vanilla customizations to manipulate `vite.config.[j|t]s`
+- [ ] Extract utilities from vanilla customizations to manipulate stuff: for example `vite.config.[j|t]s`
 - [x] `vanilla` and `vanilla-ts` templates
 - [ ] `vue` and `vue-ts` templates
 - [ ] `react` and `react-ts` templates
@@ -16,3 +16,5 @@
 - [ ] `sveltekit` template
 - [ ] `qwik-city` template
 - [ ] remove unused templates
+- [ ] add `Check List` entry in README.md templates
+- [ ] transfer and make the repo public to allow contributions: include wip flag in frameworks
