@@ -17,6 +17,6 @@
 - [ ] `qwik-city` template
 - [ ] remove unused templates
 - [ ] add `Check List` entry in README.md templates
-- [ ] transfer and make the repo public to allow contributions
+- [x] transfer and make the repo public to allow contributions
 - [x] include `enabled` flag in frameworks
 - [x] move templates to templates folder
