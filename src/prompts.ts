@@ -26,16 +26,19 @@ export const FRAMEWORKS = (<Framework[]>[
     name: 'vue',
     display: 'Vue',
     color: green,
+    enabled: true,
     variants: [
       {
         name: 'vue-ts',
         display: 'TypeScript',
         color: blue,
+        enabled: true,
       },
       {
         name: 'vue',
         display: 'JavaScript',
         color: yellow,
+        enabled: true,
       },
       /*
             {
