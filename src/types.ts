@@ -4,6 +4,7 @@ export interface Framework {
   name: string
   display: string
   color: ColorFunc
+  enabled?: boolean
   variants: FrameworkVariant[]
 }
 

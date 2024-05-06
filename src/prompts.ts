@@ -1,11 +1,12 @@
 import { blue, cyan, green, lightBlue, lightGreen, lightRed, magenta, red, yellow } from 'kolorist'
 import type { Behavior, Framework, Strategy } from './types'
 
-export const FRAMEWORKS: Framework[] = [
+export const FRAMEWORKS = (<Framework[]>[
   {
     name: 'vanilla',
     display: 'Vanilla',
     color: yellow,
+    enabled: true,
     variants: [
       {
         name: 'vanilla-ts',
@@ -207,7 +208,7 @@ export const FRAMEWORKS: Framework[] = [
     ],
   },
 */
-]
+]).filter(f => f.enabled)
 
 export const PWA_BEHAVIORS: Behavior[] = [
   {
