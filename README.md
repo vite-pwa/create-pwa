@@ -66,6 +66,25 @@ Then follow the prompts!
 
 Read the [📖 documentation](https://vite-pwa-org.netlify.app/guide/scaffolding) for a complete guide on how to use it.
 
+## :clock1: Status
+
+Our plan is to release the first version when all Vite templates are ready:
+- [x] `vanilla` and `vanilla-ts` templates
+- [ ] `vue` and `vue-ts` templates
+- [ ] `react` and `react-ts` templates
+- [ ] `preact` and `preact-ts` templates
+- [ ] `svelte` and `svelte-ts` templates
+- [ ] `solid` and `solid-ts` templates
+- [ ] `lit` and `lit-ts` templates
+
+Later we will add support for meta-frameworks:
+- [ ] `astro` template
+- [ ] `nuxt` template
+- [ ] `remix` template
+- [ ] `vitepress` template
+- [ ] `sveltekit` template
+- [ ] `qwik-city` template
+
 ## 📄 License
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Anthony Fu](https://github.com/antfu)
