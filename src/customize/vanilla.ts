@@ -32,7 +32,7 @@ export function customize(prompts: PromptsData) {
     if (reloadSW) {
       newContent = newContent
         .replace('PERIODIC_SYNC_COMMENT', 'check for updates every hour')
-        .replace('const period = 0', 'const period = 24 * 60 * 60000')
+        .replace('const period = 0', 'const period = 60 * 60 * 1000')
     }
     else {
       newContent = newContent.replace('PERIODIC_SYNC_COMMENT', `periodic sync is disabled, change the value to enable it, the period is in milliseconds
