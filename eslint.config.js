@@ -5,7 +5,7 @@ export default antfu(
   {
     ignores: [
       'index.js',
-      'template-**',
+      'templates/**',
     ],
   },
   {

@@ -252,10 +252,6 @@ async function init() {
     template = template.replace('-swc', '')
   }
 
-  console.log(strategy)
-  console.log(template)
-  console.log(behavior)
-  console.log(reloadSW)
   const promptsData: PromptsData = {
     rootPath: root,
     name: pwaName,
@@ -269,8 +265,6 @@ async function init() {
     reloadSW,
     pwaAssets,
   }
-
-  console.log(promptsData)
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
   const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
@@ -321,7 +315,7 @@ async function init() {
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
     '../..',
-        `template-${template}`,
+        `templates/template-${template}`,
   )
 
   const write = (file: string, content?: string) => {
