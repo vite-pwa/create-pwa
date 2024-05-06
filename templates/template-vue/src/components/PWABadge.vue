@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 
@@ -9,8 +9,10 @@ const swActivated = ref(false)
 
 /**
  * This function will register a periodic sync check every hour, you can modify the interval as needed.
+ * @param {string} swUrl
+ * @param {ServiceWorkerRegistration} r
  */
-function registerPeriodicSync(swUrl: string, r: ServiceWorkerRegistration) {
+function registerPeriodicSync(swUrl, r) {
   if (period <= 0) return
 
   setInterval(async () => {
@@ -31,7 +33,11 @@ function registerPeriodicSync(swUrl: string, r: ServiceWorkerRegistration) {
 }
 
 
-const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
+const {
+  offlineReady,
+  needRefresh,
+  updateServiceWorker,
+} = useRegisterSW({
   immediate: true,
   onRegisteredSW(swUrl, r) {
     if (period <= 0) return
@@ -41,7 +47,8 @@ const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
     }
     else if (r?.installing) {
       r.installing.addEventListener('statechange', (e) => {
-        const sw = e.target as ServiceWorker
+        /** @type {ServiceWorker} */
+        const sw = e.target
         swActivated.value = sw.state === 'activated'
         if (swActivated.value)
           registerPeriodicSync(period, swUrl, r)
