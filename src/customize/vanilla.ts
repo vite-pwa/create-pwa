@@ -1,12 +1,16 @@
+import { renameSync, rmSync } from 'node:fs'
+import { generateCode, parseModule } from 'magicast'
+import { addVitePlugin } from 'magicast/helpers'
 import type { PromptsData } from '../types'
 import { editFile } from '../utils'
+import type { PWAOptions } from '../pwa'
+import { preparePWAOptions } from '../pwa'
+import { MagicastViteOptions } from '../vite'
 
 export function customize(prompts: PromptsData) {
   const {
     rootPath,
     name,
-    shortName,
-    description,
     themeColor,
     framework,
     customServiceWorker,
@@ -16,30 +20,6 @@ export function customize(prompts: PromptsData) {
     pwaAssets,
   } = prompts
   const ts = framework === 'vanilla-ts'
-  const viteConfig = `${rootPath}/vite.config.${ts ? 't' : 'j'}s`
-  editFile(viteConfig, (content) => {
-    let newContent = content
-      .replace('Application name', `${name}`)
-      .replace('App short name', `${shortName}`)
-      .replace('Application description', `${description ?? name}`)
-      .replace('#ffffff', `${themeColor}`)
-      .replace('generateSW', `${customServiceWorker ? 'injectManifest' : 'generateSW'}`)
-      .replace('prompt', `'${prompt ? 'prompt' : 'autoUpdate'}'`)
-
-    if (!pwaAssets)
-      newContent = newContent.replace('{ disabled: false,', '{ disabled: true,')
-
-    if (customServiceWorker) {
-      newContent = newContent
-        .replace(
-          ts ? '// srcDir: \'./src/service-worker/\',' : '// srcDir: \'./service-worker/\',',
-          ts ? 'srcDir: \'./src/service-worker/\',' : 'srcDir: \'./service-worker/\',',
-        )
-        .replace('// filename: \'sw.js\',', `filename: '${prompt ? 'prompt' : 'claims'}-sw.js',`)
-    }
-
-    return newContent
-  })
   editFile(`${rootPath}/${ts ? 'src/' : ''}pwa.${ts ? 't' : 'j'}s`, (content) => {
     let newContent = content
       .replace('OFFLINE_COMMENT', `${offline ? 'comment out the next 2 lines to show offline ready prompt' : 'uncomment the next 2 lines to hide offline ready prompt'}`)
@@ -56,14 +36,14 @@ export function customize(prompts: PromptsData) {
     }
     else {
       newContent = newContent.replace('PERIODIC_SYNC_COMMENT', `periodic sync is disabled, change the value to enable it, the period is in milliseconds
-   // You can remove onRegisteredSW callbacl and registerPeriodicSync function`)
+   // You can remove onRegisteredSW callback and registerPeriodicSync function`)
     }
 
     return newContent.replace(
       'PROMPT_COMMENT',
       prompt
         ? 'Show the prompt to update the service worker when a new version is available'
-        : `This method will not be called using registerType with 'autoUpdate' behavior: you can change the behavior in the ${viteConfig} file using \'registerType\' property.`,
+        : `This method will not be called using registerType with 'autoUpdate' behavior: you can change the behavior in the Vite config file using \'registerType\' property.`,
     )
   })
   editFile(`${rootPath}/index.html`, (content) => {
@@ -85,5 +65,46 @@ export function customize(prompts: PromptsData) {
     return content
       .replace('Vite VanillaJS PWA', `'${name}'`)
       .replace('Vite TypeScript PWA', `'${name}'`)
+  })
+  if (customServiceWorker) {
+    const toDelete = prompt ? 'claims' : 'prompt'
+    rmSync(`${rootPath}/${ts ? 'src/' : ''}service-worker/${toDelete}-sw.${ts ? 't' : 'j'}s`)
+    const toRename = prompt ? 'prompt' : 'claims'
+    renameSync(`${rootPath}/${ts ? 'src/' : ''}service-worker/${toRename}-sw.${ts ? 't' : 'j'}s`, `${rootPath}/${ts ? 'src/' : ''}service-worker/sw.${ts ? 't' : 'j'}s`)
+  }
+  else {
+    rmSync(`${prompts.rootPath}/${ts ? 'src/' : ''}service-worker`, { recursive: true })
+  }
+  const viteConf = parseModule(`
+import { defineConfig } from 'vite'
+
+export default defineConfig({})`)
+
+  const options: PWAOptions = {
+    includeAssets: ts ? ['favicon.svg', 'favicon.ico', 'typescript.svg'] : ['favicon.svg', 'favicon.ico', 'javascript.svg'],
+    workbox: {
+      cleanupOutdatedCaches: true,
+      clientsClaim: true,
+    },
+  }
+
+  if (ts) {
+    options.workbox.globPatterns = ['**/*.{js,css,html,svg}']
+    options.injectManifest = { globPatterns: ['**/*.{js,css,html,svg}'] }
+  }
+
+  addVitePlugin(viteConf, {
+    from: 'vite-plugin-pwa',
+    imported: 'VitePWA',
+    constructor: 'VitePWA',
+    options: preparePWAOptions(
+      ts,
+      prompts,
+`${ts ? 'src/' : ''}service-worker`,
+options,
+    ),
+  })
+  editFile(`${rootPath}/vite.config.${ts ? 't' : 'j'}s`, () => {
+    return generateCode(viteConf, MagicastViteOptions).code
   })
 }
