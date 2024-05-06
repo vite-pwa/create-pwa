@@ -46,11 +46,12 @@ export function customize(prompts: PromptsData) {
     )
   })
   editFile(`${rootPath}/index.html`, (content) => {
+    const newContent = content
+      .replace('Vite VanillaJS PWA', `'${name}'`)
+      .replace('Vite TypeScript PWA', `'${name}'`)
     return pwaAssets
-      ? content.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg" />', '')
-      : content
-        .replace('Vite VanillaJS PWA', `'${name}'`)
-        .replace('Vite TypeScript PWA', `'${name}'`)
+      ? newContent.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg" />', '')
+      : newContent
         .replace(
           '<link rel="icon" type="image/svg+xml" href="/favicon.svg" />',
         `    <meta name="theme-color" content="${themeColor}">
@@ -62,8 +63,9 @@ export function customize(prompts: PromptsData) {
   })
   editFile(`${rootPath}/${ts ? 'src/' : ''}/main.${ts ? 't' : 'j'}s`, (content) => {
     return content
-      .replace('Vite VanillaJS PWA', `'${name}'`)
-      .replace('Vite TypeScript PWA', `'${name}'`)
+      .replace('Vite VanillaJS PWA', `${name}`)
+      .replace('Vite TypeScript PWA', `${name}`)
+      .replace('Vite PWA logo', `${name} logo`)
   })
   if (customServiceWorker) {
     const toDelete = prompt ? 'claims' : 'prompt'
@@ -77,6 +79,7 @@ export function customize(prompts: PromptsData) {
   const viteConf = parseModule(`
 import { defineConfig } from 'vite'
 
+// https://vitejs.dev/config/
 export default defineConfig({})
 `)
 
