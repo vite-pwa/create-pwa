@@ -23,6 +23,7 @@ export interface FrameworkVariant {
   name: FrameworkVariantKey
   display: string
   color: ColorFunc
+  enabled?: boolean
   customCommand?: string
 }
 

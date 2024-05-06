@@ -119,11 +119,11 @@ async function init() {
           }),
         },
         {
-          type: (framework: Framework) => framework && framework.variants ? 'select' : null,
+          type: (framework: Framework) => framework && framework.variants?.filter(v => v.enabled) ? 'select' : null,
           name: 'variant',
           message: reset('Select a variant:'),
           choices: (framework: Framework) =>
-            framework.variants.map((variant) => {
+            framework.variants.filter(v => v.enabled).map((variant) => {
               const variantColor = variant.color
               return {
                 title: variantColor(variant.display || variant.name),
