@@ -29,5 +29,6 @@ export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: a
     npmPM ? 'overrides' : 'resolutions',
     [['sharp', '0.32.6'], ['sharp-ico', '0.1.5']],
     pkg,
+    false,
   )
 }
