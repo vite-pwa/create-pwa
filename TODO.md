@@ -20,3 +20,4 @@
 - [x] transfer and make the repo public to allow contributions
 - [x] include `enabled` flag in frameworks
 - [x] move templates to templates folder
+- [ ] cleanup also unused features: for example, remove custom sw when using `generateSW` strategy
