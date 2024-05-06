@@ -56,7 +56,7 @@ export function initPWA(app) {
                 showPwaToast(false)
             },
             onRegisteredSW(swUrl, r) {
-                // PERIODIC_SYNC_COMMENT
+                if (period <= 0) return
                 if (r?.active?.state === 'activated') {
                     swActivated = true
                     registerPeriodicSync(period, swUrl, r)
