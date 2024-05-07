@@ -60,11 +60,13 @@ export const FRAMEWORKS = (<Framework[]>[
     name: 'react',
     display: 'React',
     color: cyan,
+    enabled: true,
     variants: [
       {
         name: 'react-ts',
         display: 'TypeScript',
         color: blue,
+        enabled: true,
       },
       /*
             {
@@ -77,6 +79,7 @@ export const FRAMEWORKS = (<Framework[]>[
         name: 'react',
         display: 'JavaScript',
         color: yellow,
+        enabled: true,
       },
       /*
             {

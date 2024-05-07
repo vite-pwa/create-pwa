@@ -6,7 +6,7 @@
 - [x] `vue` and `vue-ts` templates
 - [x] `lit` and `lit-ts` templates
 - [x] `svelte` and `svelte-ts` templates
-- [ ] `react` and `react-ts` templates
+- [x] `react` and `react-ts` templates
 - [ ] `preact` and `preact-ts` templates
 - [ ] `solid` and `solid-ts` templates
 - [ ] `nuxt` template
@@ -25,7 +25,7 @@
   - [x] `vue` and `vue-ts` templates
   - [x] `lit` and `lit-ts` templates
   - [x] `svelte` and `svelte-ts` templates
-  - [ ] `react` and `react-ts` templates
+  - [x] `react` and `react-ts` templates
   - [ ] `preact` and `preact-ts` templates
   - [ ] `solid` and `solid-ts` templates
   - [ ] `nuxt` template

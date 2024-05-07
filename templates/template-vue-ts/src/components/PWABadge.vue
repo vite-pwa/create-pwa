@@ -30,7 +30,6 @@ function registerPeriodicSync(swUrl: string, r: ServiceWorkerRegistration) {
   }, period)
 }
 
-
 const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
   immediate: true,
   onRegisteredSW(swUrl, r) {
