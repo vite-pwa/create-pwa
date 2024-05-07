@@ -34,7 +34,7 @@ const PWABadge = () => {
   }
 
   return (
-    <div class={styles.Container} role="alert" aria-labelledby="toast-message"><!-- @BEGIN -->
+    <div class={styles.Container} role="alert" aria-labelledby="toast-message"><div class="begin">
       <Show when={offlineReady() || needRefresh()}>
         <div class={styles.Toast}>
           <div class={styles.Message}>
@@ -52,7 +52,7 @@ const PWABadge = () => {
             <button class={styles.ToastButton} onClick={() => close()}>Close</button>
           </div>
         </div>
-      </Show><!-- @END -->
+      </Show></div>
     </div>
   )
 }

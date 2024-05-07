@@ -43,8 +43,8 @@ export function customize(prompts: PromptsData) {
           'setOfflineReady(false)',
           '',
         )
-      const begin = newContent.indexOf('<!-- @BEGIN -->')
-      const end = newContent.indexOf('<!-- @END -->')
+      const begin = newContent.indexOf('<div class="begin">')
+      const end = newContent.indexOf('</Show></div>')
       const rest = newContent.slice(end + 13)
       newContent = newContent.slice(0, begin)
       newContent += `
@@ -58,8 +58,7 @@ export function customize(prompts: PromptsData) {
             <button class={styles.ToastButton} onClick={() => close()}>Close</button>
           </div>
         </div>
-      </Show>
-`
+      </Show>`
       newContent += rest
     }
 
