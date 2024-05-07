@@ -6,11 +6,11 @@ export default defineConfig({
   plugins: [
     solid(),
     VitePWA({
-      strategies: 'injectManifest',
+      strategies: 'generateSW',
       // when using strategies 'injectManifest' you need to provide the srcDir
-      srcDir: 'src',
+      // srcDir: 'src',
       // when using strategies 'injectManifest' use claims-sw.ts or prompt-sw.ts
-      filename: 'prompt-sw.ts',
+      // filename: 'prompt-sw.ts',
       registerType: 'prompt',
       injectRegister: false,
       pwaAssets: { disabled: false, config: true, htmlPreset: '2023', overrideManifestIcons: true },
