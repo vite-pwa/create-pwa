@@ -69,7 +69,7 @@ export function customize(prompts: PromptsData) {
   })
   editFile(`${rootPath}/src/App.svelte`, (content) => {
     return content
-      .replace('App logo', `${name} Logo`)
+      .replace('App Logo', `${name} Logo`)
       .replace('Vite PWA + Svelte + TS', `${name}`)
       .replace('Vite PWA + Svelte', `${name}`)
   })
