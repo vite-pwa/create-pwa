@@ -4,7 +4,7 @@
 - [ ] Extract utilities from vanilla customizations to manipulate stuff: for example `vite.config.[j|t]s`
 - [x] `vanilla` and `vanilla-ts` templates
 - [x] `vue` and `vue-ts` templates
-- [ ] `lit` and `lit-ts` templates
+- [x] `lit` and `lit-ts` templates
 - [ ] `svelte` and `svelte-ts` templates
 - [ ] `react` and `react-ts` templates
 - [ ] `preact` and `preact-ts` templates
@@ -21,3 +21,16 @@
 - [x] include `enabled` flag in frameworks
 - [x] move templates to templates folder
 - [ ] cleanup also unused features: for example, remove custom sw when using `generateSW` strategy
+  - [x] `vanilla` and `vanilla-ts` templates
+  - [x] `vue` and `vue-ts` templates
+  - [x] `lit` and `lit-ts` templates
+  - [ ] `svelte` and `svelte-ts` templates
+  - [ ] `react` and `react-ts` templates
+  - [ ] `preact` and `preact-ts` templates
+  - [ ] `solid` and `solid-ts` templates
+  - [ ] `nuxt` template
+  - [ ] `sveltekit` template
+  - [ ] `astro` template
+  - [ ] `remix` template
+  - [ ] `vitepress` template
+  - [ ] `qwik-city` template

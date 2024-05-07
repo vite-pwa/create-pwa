@@ -71,7 +71,7 @@ Read the [📖 documentation](https://vite-pwa-org.netlify.app/guide/scaffolding
 Our plan is to release the first version when all Vite templates are ready:
 - [x] `VanillaJS` and `TypeScript` templates
 - [x] `Vue` and `Vue + TypeScript` templates
-- [ ] `Lit` and `Lit + TypeScript` templates
+- [x] `Lit` and `Lit + TypeScript` templates
 - [ ] `Svelte` and `Svelte + TypeScript` templates
 - [ ] `React` and `React + TypeScript` templates
 - [ ] `Preact` and `Preact + TypeScript` templates
