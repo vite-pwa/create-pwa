@@ -37,14 +37,14 @@ const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({
     if (period <= 0) return
     if (r?.active?.state === 'activated') {
       swActivated.value = true
-      registerPeriodicSync(period, swUrl, r)
+      registerPeriodicSync(swUrl, r)
     }
     else if (r?.installing) {
       r.installing.addEventListener('statechange', (e) => {
         const sw = e.target as ServiceWorker
         swActivated.value = sw.state === 'activated'
         if (swActivated.value)
-          registerPeriodicSync(period, swUrl, r)
+          registerPeriodicSync(swUrl, r)
       })
     }
   },

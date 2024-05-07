@@ -5,11 +5,11 @@ import { VitePWA } from 'vite-plugin-pwa'
 export default defineConfig({
   plugins: [
       VitePWA({
-        strategies: 'injectManifest',
+        strategies: 'generateSW',
         // when using strategies 'injectManifest' you need to provide the srcDir
-        srcDir: 'src',
+        // srcDir: 'src',
         // when using strategies 'injectManifest' use claims-sw.js or prompt-sw.js
-        filename: 'prompt-sw.js',
+        // filename: 'prompt-sw.js',
         registerType: 'prompt',
         injectRegister: false,
         pwaAssets: { disabled: false, config: true, htmlPreset: '2023', overrideManifestIcons: true },

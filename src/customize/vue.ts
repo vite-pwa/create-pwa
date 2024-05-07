@@ -24,7 +24,10 @@ export function customize(prompts: PromptsData) {
 
     if (!offline) {
       newContent = newContent
-        .replace('const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({', 'const { needRefresh, updateServiceWorker } = useRegisterSW({')
+        .replace(
+          'const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW({',
+          'const { needRefresh, updateServiceWorker } = useRegisterSW({',
+        )
         .replace('if (offlineReady.value)', '')
         .replace('return \'App ready to work offline\'', '')
         .replace('offlineReady.value = false', '')

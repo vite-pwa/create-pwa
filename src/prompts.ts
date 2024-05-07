@@ -134,16 +134,19 @@ export const FRAMEWORKS = (<Framework[]>[
     name: 'svelte',
     display: 'Svelte',
     color: red,
+    enabled: true,
     variants: [
       {
         name: 'svelte-ts',
         display: 'TypeScript',
         color: blue,
+        enabled: true,
       },
       {
         name: 'svelte',
         display: 'JavaScript',
         color: yellow,
+        enabled: true,
       },
       {
         name: 'custom-svelte-kit',

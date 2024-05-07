@@ -15,10 +15,6 @@
     "@vite-pwa/assets-generator": "^0.2.4",
     "vite": "^5.2.0",
     "vite-plugin-pwa": "^0.20.0",
-    "workbox-core": "^7.1.0",
-    "workbox-precaching": "^7.1.0",
-    "workbox-routing": "^7.1.0",
-    "workbox-strategies": "^7.1.0",
     "workbox-window": "^7.1.0"
   }
 }

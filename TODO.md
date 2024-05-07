@@ -5,7 +5,7 @@
 - [x] `vanilla` and `vanilla-ts` templates
 - [x] `vue` and `vue-ts` templates
 - [x] `lit` and `lit-ts` templates
-- [ ] `svelte` and `svelte-ts` templates
+- [x] `svelte` and `svelte-ts` templates
 - [ ] `react` and `react-ts` templates
 - [ ] `preact` and `preact-ts` templates
 - [ ] `solid` and `solid-ts` templates
@@ -24,7 +24,7 @@
   - [x] `vanilla` and `vanilla-ts` templates
   - [x] `vue` and `vue-ts` templates
   - [x] `lit` and `lit-ts` templates
-  - [ ] `svelte` and `svelte-ts` templates
+  - [x] `svelte` and `svelte-ts` templates
   - [ ] `react` and `react-ts` templates
   - [ ] `preact` and `preact-ts` templates
   - [ ] `solid` and `solid-ts` templates

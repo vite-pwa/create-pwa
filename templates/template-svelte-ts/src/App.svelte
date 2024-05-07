@@ -1,19 +1,20 @@
 <script lang="ts">
   import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
+  import appLogo from '/favicon.svg'
   import Counter from './lib/Counter.svelte'
+  import PWABadge from './lib/PWABadge.svelte'
 </script>
 
 <main>
   <div>
     <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
+      <img src={appLogo} class="logo" alt="App Logo" />
     </a>
     <a href="https://svelte.dev" target="_blank" rel="noreferrer">
       <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
     </a>
   </div>
-  <h1>Vite + Svelte</h1>
+  <h1>Vite PWA + Svelte + TS</h1>
 
   <div class="card">
     <Counter />
@@ -27,6 +28,8 @@
     Click on the Vite and Svelte logos to learn more
   </p>
 </main>
+
+<PWABadge />
 
 <style>
   .logo {
