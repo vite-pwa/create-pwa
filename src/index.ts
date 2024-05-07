@@ -357,12 +357,14 @@ async function init() {
   switch (pkgManager) {
     case 'yarn':
       console.log('  yarn')
-      console.log('  yarn generate-pwa-icons')
+      if (!pwaAssets)
+        console.log('  yarn generate-pwa-icons')
       console.log('  yarn dev')
       break
     default:
       console.log(`  ${pkgManager} install`)
-      console.log(`  ${pkgManager} run generate-pwa-icons`)
+      if (!pwaAssets)
+        console.log(`  ${pkgManager} run generate-pwa-icons`)
       console.log(`  ${pkgManager} run dev`)
       break
   }
