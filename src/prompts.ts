@@ -166,16 +166,19 @@ export const FRAMEWORKS = (<Framework[]>[
     name: 'solid',
     display: 'Solid',
     color: blue,
+    enabled: true,
     variants: [
       {
         name: 'solid-ts',
         display: 'TypeScript',
         color: blue,
+        enabled: true,
       },
       {
         name: 'solid',
         display: 'JavaScript',
         color: yellow,
+        enabled: true,
       },
     ],
   },
