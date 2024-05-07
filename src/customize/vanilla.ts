@@ -47,8 +47,8 @@ export function customize(prompts: PromptsData) {
   })
   editFile(`${rootPath}/index.html`, (content) => {
     const newContent = content
-      .replace('Vite VanillaJS PWA', `'${name}'`)
-      .replace('Vite TypeScript PWA', `'${name}'`)
+      .replace('Vite VanillaJS PWA', `${name}`)
+      .replace('Vite TypeScript PWA', `${name}`)
     return pwaAssets
       ? newContent.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg" />', '')
       : newContent

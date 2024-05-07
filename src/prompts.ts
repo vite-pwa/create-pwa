@@ -114,16 +114,19 @@ export const FRAMEWORKS = (<Framework[]>[
     name: 'lit',
     display: 'Lit',
     color: lightRed,
+    enabled: true,
     variants: [
       {
         name: 'lit-ts',
         display: 'TypeScript',
         color: blue,
+        enabled: true,
       },
       {
         name: 'lit',
         display: 'JavaScript',
         color: yellow,
+        enabled: true,
       },
     ],
   },
