@@ -73,7 +73,7 @@ Our plan is to release the first version when all Vite templates are ready:
 - [x] `Vue` and `Vue + TypeScript` templates
 - [x] `Lit` and `Lit + TypeScript` templates
 - [x] `Svelte` and `Svelte + TypeScript` templates
-- [ ] `React` and `React + TypeScript` templates
+- [x] `React` and `React + TypeScript` templates
 - [ ] `Preact` and `Preact + TypeScript` templates
 - [ ] `SolidJS` and `SolidJS + TypeScript` templates
 
