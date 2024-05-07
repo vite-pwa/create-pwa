@@ -44,7 +44,7 @@
     "lint": "eslint .",
     "lint-fix": "nr lint --fix",
     "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish"
+    "release": "bumpp && npm publish --access=public"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.16.1",
