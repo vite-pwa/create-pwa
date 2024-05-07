@@ -100,16 +100,19 @@ export const FRAMEWORKS = (<Framework[]>[
     name: 'preact',
     display: 'Preact',
     color: magenta,
+    enabled: true,
     variants: [
       {
         name: 'preact-ts',
         display: 'TypeScript',
         color: blue,
+        enabled: true,
       },
       {
         name: 'preact',
         display: 'JavaScript',
         color: yellow,
+        enabled: true,
       },
     ],
   },

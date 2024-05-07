@@ -74,7 +74,7 @@ Our plan is to release the first version when all Vite templates are ready:
 - [x] `Lit` and `Lit + TypeScript` templates
 - [x] `Svelte` and `Svelte + TypeScript` templates
 - [x] `React` and `React + TypeScript` templates
-- [ ] `Preact` and `Preact + TypeScript` templates
+- [x] `Preact` and `Preact + TypeScript` templates
 - [ ] `SolidJS` and `SolidJS + TypeScript` templates
 
 Later we will add support for meta-frameworks:
