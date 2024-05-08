@@ -42,6 +42,7 @@ export interface Strategy {
 export type PackageJsonEntry = [name: string, value: string]
 
 export interface PromptsData {
+  templateDir: string
   rootPath: string
   name: string
   shortName: string
@@ -53,4 +54,5 @@ export interface PromptsData {
   reloadSW: boolean
   offline: boolean
   pwaAssets: boolean
+  installPWA?: boolean
 }
