@@ -1,5 +1,4 @@
 /// <reference lib="WebWorker" />
-/// <reference types="vite/client" />
 import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute } from 'workbox-routing'
 
@@ -19,7 +18,7 @@ cleanupOutdatedCaches()
 /** @type {RegExp[] | undefined} */
 let allowlist
 // in dev mode, we disable precaching to avoid caching issues
-if (import.meta.env.DEV)
+if (import.meta.dev)
   allowlist = [/^\/$/]
 
 // to allow work offline
