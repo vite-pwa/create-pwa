@@ -261,6 +261,8 @@ async function init() {
     template = template.replace('-swc', '')
   }
 
+  const cdProjectName = path.relative(cwd, root)
+
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
     '../..',
@@ -268,6 +270,7 @@ async function init() {
   )
 
   const promptsData: PromptsData = {
+    cdProjectName,
     templateDir,
     rootPath: root,
     name: pwaName,
@@ -356,7 +359,6 @@ async function init() {
   if (isReactSwc)
     setupReactSwc(root, template.endsWith('-ts'))
 
-  const cdProjectName = path.relative(cwd, root)
   console.log(`\nDone. Now run:\n`)
   if (root !== cwd) {
     console.log(

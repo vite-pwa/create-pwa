@@ -1,16 +1,20 @@
-import { copyFileSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
+import process from 'node:process'
 import { addNuxtModule } from 'magicast/helpers'
 import { generateCode, parseModule } from 'magicast'
 import type { PromptsData } from '../types'
 import { preparePWAOptions } from '../pwa'
+import { includeDependencies } from '../dependencies'
 
 export function customize(prompts: PromptsData) {
   const {
+    cdProjectName,
     templateDir,
     rootPath,
     customServiceWorker,
     prompt,
+    pwaAssets,
   } = prompts
   // cleanup target folder
   rmSync(path.join(rootPath, 'app.vue'), { recursive: true })
@@ -43,7 +47,63 @@ export function customize(prompts: PromptsData) {
       path.join(rootPath, 'service-worker', 'tsconfig.json'),
     )
   }
+
   createNuxtConf(prompts)
+
+  const pkg = JSON.parse(readFileSync(path.join(rootPath, 'package.json'), 'utf-8'))
+
+  const pkgManager = detectPackageManager(rootPath)
+
+  includeDependencies(prompts, pkgManager === 'npm', pkg, [
+    ['@vite-pwa/assets-generator', '^0.2.4'],
+    ['@vite-pwa/nuxt', '^0.7.0'],
+    ['typescript', '^5.4.5'],
+    ['vite-plugin-pwa', '^0.20.0'],
+    ['vue-tsc', '^2.0.16'],
+    ['workbox-window', '^7.1.0'],
+  ])
+
+  writeFileSync(path.join(rootPath, 'package.json'), JSON.stringify(pkg, null, 2), 'utf-8')
+
+  console.log('\n\nPWA configuration done. Now run:\n')
+  if (rootPath !== process.cwd()) {
+    console.log(
+        `  cd ${
+            cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+        }`,
+    )
+  }
+  switch (pkgManager) {
+    case 'yarn':
+      console.log('  yarn')
+      if (!pwaAssets)
+        console.log('  yarn generate-pwa-icons')
+      console.log('  yarn dev')
+      break
+    default:
+      console.log(`  ${pkgManager} install`)
+      if (!pwaAssets)
+        console.log(`  ${pkgManager} run generate-pwa-icons`)
+      console.log(`  ${pkgManager} run dev`)
+      break
+  }
+  console.log()
+}
+
+function detectPackageManager(rootPath: string) {
+  // check for pnpm lock file
+  if (existsSync(path.join(rootPath, 'pnpm-lock.yaml')))
+    return 'pnpm'
+
+  // check for yarn lock file
+  if (existsSync(path.join(rootPath, 'yarn.lock')))
+    return 'yarn'
+
+  // check for bun lock file
+  if (existsSync(path.join(rootPath, 'bun.lockb')))
+    return 'bun'
+
+  return 'npm'
 }
 
 function createNuxtConf(prompts: PromptsData) {

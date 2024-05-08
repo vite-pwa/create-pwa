@@ -1,7 +1,7 @@
 import { addPackageObject } from './utils'
-import type { PromptsData } from './types'
+import type { PackageJsonEntry, PromptsData } from './types'
 
-export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: any) {
+export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: any, devDependencies?: PackageJsonEntry[]) {
   const { customServiceWorker, pwaAssets } = prompts
   if (!pwaAssets) {
     addPackageObject(
@@ -13,16 +13,16 @@ export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: a
   }
 
   if (customServiceWorker) {
-    addPackageObject(
-      'devDependencies',
-      [
-        ['workbox-core', '^7.1.0'],
-        ['workbox-precaching', '^7.1.0'],
-        ['workbox-routing', '^7.1.0'],
-        ['workbox-strategies', '^7.1.0'],
-      ],
-      pkg,
-    )
+    const deps: PackageJsonEntry[] = [
+      ['workbox-core', '^7.1.0'],
+      ['workbox-precaching', '^7.1.0'],
+      ['workbox-routing', '^7.1.0'],
+      ['workbox-strategies', '^7.1.0'],
+    ]
+    if (devDependencies?.length)
+      deps.push(...devDependencies)
+
+    addPackageObject('devDependencies', deps, pkg)
   }
 
   addPackageObject(

@@ -42,6 +42,7 @@ export interface Strategy {
 export type PackageJsonEntry = [name: string, value: string]
 
 export interface PromptsData {
+  cdProjectName: string
   templateDir: string
   rootPath: string
   name: string
