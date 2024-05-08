@@ -98,7 +98,7 @@ export default defineNuxtConfig({
   },
 })
 `)
-  addNuxtModule(nuxtConf, 'pwa', pwaOptions)
+  addNuxtModule(nuxtConf, '@vite-pwa/nuxt', 'pwa', pwaOptions)
   writeFileSync(path.join(rootPath, 'nuxt.config.ts'), generateCode(nuxtConf).code, 'utf-8')
 }
 
