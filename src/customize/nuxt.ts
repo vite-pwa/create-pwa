@@ -1,13 +1,15 @@
-import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { addNuxtModule } from 'magicast/helpers'
 import { generateCode, parseModule } from 'magicast'
+import { detectPackageManager } from 'nypm'
 import type { PromptsData } from '../types'
 import { preparePWAOptions } from '../pwa'
 import { includeDependencies } from '../dependencies'
+import { MagicastViteOptions } from '../vite'
 
-export function customize(prompts: PromptsData) {
+export async function customize(prompts: PromptsData) {
   const {
     cdProjectName,
     templateDir,
@@ -17,32 +19,32 @@ export function customize(prompts: PromptsData) {
     pwaAssets,
   } = prompts
   // cleanup target folder
-  rmSync(path.join(rootPath, 'app.vue'), { recursive: true })
-  rmSync(path.join(rootPath, 'nuxt.config.ts'), { recursive: true })
-  rmSync(path.join(rootPath, 'public'), { recursive: true })
+  fs.rmSync(path.join(rootPath, 'app.vue'), { recursive: true })
+  fs.rmSync(path.join(rootPath, 'nuxt.config.ts'), { recursive: true })
+  fs.rmSync(path.join(rootPath, 'public'), { recursive: true })
   // extract template-nuxt folder
-  copyFileSync(path.join(templateDir, 'app.vue'), path.join(rootPath, 'app.vue'))
-  mkdirSync(path.join(rootPath, 'layouts'))
-  writeFileSync(
+  fs.copyFileSync(path.join(templateDir, 'app.vue'), path.join(rootPath, 'app.vue'))
+  fs.mkdirSync(path.join(rootPath, 'layouts'))
+  fs.writeFileSync(
     path.join(rootPath, 'layouts', 'default.vue'),
     createLayout(prompts),
     'utf-8',
   )
-  mkdirSync(path.join(rootPath, 'pages'))
-  copyFileSync(
+  fs.mkdirSync(path.join(rootPath, 'pages'))
+  fs.copyFileSync(
     path.join(templateDir, 'pages', 'index.vue'),
     path.join(rootPath, 'pages', 'index.vue'),
   )
-  mkdirSync(path.join(rootPath, 'public'))
-  copyFileSync(path.join(templateDir, 'public', 'favicon.svg'), path.join(rootPath, 'public', 'favicon.svg'))
-  copyFileSync(path.join(templateDir, 'pwa-assets.config.ts'), path.join(rootPath, 'pwa-assets.config.ts'))
+  fs.mkdirSync(path.join(rootPath, 'public'))
+  fs.copyFileSync(path.join(templateDir, 'public', 'favicon.svg'), path.join(rootPath, 'public', 'favicon.svg'))
+  fs.copyFileSync(path.join(templateDir, 'pwa-assets.config.ts'), path.join(rootPath, 'pwa-assets.config.ts'))
   if (customServiceWorker) {
-    mkdirSync(path.join(rootPath, 'service-worker'))
-    copyFileSync(
+    fs.mkdirSync(path.join(rootPath, 'service-worker'))
+    fs.copyFileSync(
       path.join(templateDir, 'service-worker', `${prompt ? 'prompt' : 'claims'}-sw.ts`),
       path.join(rootPath, 'service-worker', 'sw.ts'),
     )
-    copyFileSync(
+    fs.copyFileSync(
       path.join(templateDir, 'service-worker', 'tsconfig.json'),
       path.join(rootPath, 'service-worker', 'tsconfig.json'),
     )
@@ -50,9 +52,9 @@ export function customize(prompts: PromptsData) {
 
   createNuxtConf(prompts)
 
-  const pkg = JSON.parse(readFileSync(path.join(rootPath, 'package.json'), 'utf-8'))
+  const pkg = JSON.parse(fs.readFileSync(path.join(rootPath, 'package.json'), 'utf-8'))
 
-  const pkgManager = detectPackageManager(rootPath)
+  const pkgManager = await detectPackageManager(rootPath).then(res => res?.name || 'npm')
 
   includeDependencies(prompts, pkgManager === 'npm', pkg, [
     ['@vite-pwa/assets-generator', '^0.2.4'],
@@ -63,7 +65,7 @@ export function customize(prompts: PromptsData) {
     ['workbox-window', '^7.1.0'],
   ])
 
-  writeFileSync(path.join(rootPath, 'package.json'), JSON.stringify(pkg, null, 2), 'utf-8')
+  fs.writeFileSync(path.join(rootPath, 'package.json'), JSON.stringify(pkg, null, 2), 'utf-8')
 
   console.log('\n\nPWA configuration done. Now run:\n')
   if (rootPath !== process.cwd()) {
@@ -88,22 +90,6 @@ export function customize(prompts: PromptsData) {
       break
   }
   console.log()
-}
-
-function detectPackageManager(rootPath: string) {
-  // check for pnpm lock file
-  if (existsSync(path.join(rootPath, 'pnpm-lock.yaml')))
-    return 'pnpm'
-
-  // check for yarn lock file
-  if (existsSync(path.join(rootPath, 'yarn.lock')))
-    return 'yarn'
-
-  // check for bun lock file
-  if (existsSync(path.join(rootPath, 'bun.lockb')))
-    return 'bun'
-
-  return 'npm'
 }
 
 function createNuxtConf(prompts: PromptsData) {
@@ -150,6 +136,7 @@ export default defineNuxtConfig({
 })
 `)
     : parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
   devtools: { enabled: true },
   nitro: {
     prerender: {
@@ -159,7 +146,11 @@ export default defineNuxtConfig({
 })
 `)
   addNuxtModule(nuxtConf, '@vite-pwa/nuxt', 'pwa', pwaOptions)
-  writeFileSync(path.join(rootPath, 'nuxt.config.ts'), generateCode(nuxtConf).code, 'utf-8')
+  fs.writeFileSync(
+    path.join(rootPath, 'nuxt.config.ts'),
+    generateCode(nuxtConf, MagicastViteOptions).code,
+    'utf-8',
+  )
 }
 
 function createLayout(prompts: PromptsData) {

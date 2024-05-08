@@ -50,6 +50,9 @@ importers:
       minimist:
         specifier: ^1.2.8
         version: 1.2.8
+      nypm:
+        specifier: ^0.3.8
+        version: 0.3.8
       prompts:
         specifier: ^2.4.2
         version: 2.4.2
