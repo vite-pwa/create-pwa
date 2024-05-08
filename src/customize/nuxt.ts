@@ -126,7 +126,7 @@ function createLayout(prompts: PromptsData) {
       >
         <div class="message">
           <span id="toast-message">
-            {{ $pwa.offlineReady ? 'App ready to work offline' : 'New content available, click on reload button to update.' }}
+            {{ $pwa.offlineReady ? 'App ready to work offline' : 'New content available, click on reload button to update' }}
           </span>
         </div>
         <div class="buttons">
@@ -152,7 +152,7 @@ function createLayout(prompts: PromptsData) {
       >
         <div class="message">
           <span id="toast-message">
-            New content available, click on reload button to update.
+            New content available, click on reload button to update
           </span>
         </div>
         <div class="buttons">
