@@ -51,8 +51,10 @@ export async function customize(prompts: PromptsData) {
     )
   }
 
+  // create nuxt.config.ts
   createNuxtConf(prompts)
 
+  // prepare package.json
   const pkg = JSON.parse(fs.readFileSync(path.join(rootPath, 'package.json'), 'utf-8'))
 
   const pkgManager = await detectPackageManager(rootPath).then(res => res?.name || 'npm')
@@ -84,6 +86,7 @@ export async function customize(prompts: PromptsData) {
   // script + resolutions: ignoring dev dependencies
   includeDependencies(prompts, pkgManager === 'npm', pkg, true)
 
+  // save package.json
   fs.writeFileSync(path.join(rootPath, 'package.json'), JSON.stringify(pkg, null, 2), 'utf-8')
 
   console.log('\n\nPWA configuration done. Now run:\n')
