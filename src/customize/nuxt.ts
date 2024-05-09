@@ -155,7 +155,6 @@ export default defineNuxtConfig({
 
 function createLayout(prompts: PromptsData) {
   const {
-    prompt,
     offline,
     installPWA,
   } = prompts
@@ -218,7 +217,7 @@ function createLayout(prompts: PromptsData) {
   }
 
   if (installPWA) {
-    const vif = prompt
+    const vif = offline
       ? '$pwa?.showInstallPrompt && !$pwa?.offlineReady && !$pwa?.needRefresh'
       : '$pwa?.showInstallPrompt && !$pwa?.needRefresh'
     content += `
