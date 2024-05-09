@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import type { PackageJsonEntry } from './types'
 
 export function addPackageObject(
-  key: 'scripts' | 'devDependencies' | 'overrides' | 'resolutions',
+  key: 'scripts' | 'dependencies' | 'devDependencies' | 'overrides' | 'resolutions',
   entry: PackageJsonEntry[],
   pkg: any,
   sort = true,

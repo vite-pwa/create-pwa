@@ -4,10 +4,11 @@ import process from 'node:process'
 import { addNuxtModule } from 'magicast/helpers'
 import { generateCode, parseModule } from 'magicast'
 import { detectPackageManager } from 'nypm'
-import type { PromptsData } from '../types'
+import type { PackageJsonEntry, PromptsData } from '../types'
 import { preparePWAOptions } from '../pwa'
-import { includeDependencies } from '../dependencies'
 import { MagicastViteOptions } from '../vite'
+import { addPackageObject } from '../utils'
+import { includeDependencies } from '../dependencies'
 
 export async function customize(prompts: PromptsData) {
   const {
@@ -56,14 +57,32 @@ export async function customize(prompts: PromptsData) {
 
   const pkgManager = await detectPackageManager(rootPath).then(res => res?.name || 'npm')
 
-  includeDependencies(prompts, pkgManager === 'npm', pkg, [
+  // dependencies
+  pkg.dependencies ??= {}
+  const dependencies: PackageJsonEntry[] = [
     ['@vite-pwa/assets-generator', '^0.2.4'],
     ['@vite-pwa/nuxt', '^0.7.0'],
-    ['typescript', '^5.4.5'],
     ['vite-plugin-pwa', '^0.20.0'],
-    ['vue-tsc', '^2.0.16'],
+    ['workbox-build', '^7.1.0'],
     ['workbox-window', '^7.1.0'],
-  ])
+  ]
+  if (customServiceWorker) {
+    dependencies.push(
+      ['workbox-core', '^7.1.0'],
+      ['workbox-precaching', '^7.1.0'],
+      ['workbox-routing', '^7.1.0'],
+      ['workbox-strategies', '^7.1.0'],
+    )
+  }
+  addPackageObject('dependencies', dependencies, pkg, true)
+  // devDependencies
+  pkg.devDependencies ??= {}
+  addPackageObject('devDependencies', [
+    ['typescript', '^5.4.5'],
+    ['vue-tsc', '^2.0.16'],
+  ], pkg, true)
+  // script + resolutions: ignoring dev dependencies
+  includeDependencies(prompts, pkgManager === 'npm', pkg, true)
 
   fs.writeFileSync(path.join(rootPath, 'package.json'), JSON.stringify(pkg, null, 2), 'utf-8')
 
@@ -101,6 +120,14 @@ function createNuxtConf(prompts: PromptsData) {
   } = prompts
   // add nuxt config file
   const pwaOptions = preparePWAOptions(true, prompts, 'service-worker', {
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+      cleanupOutdatedCaches: true,
+      clientsClaim: true,
+    },
+    injectManifest: {
+      globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+    },
     devOptions: {
       enabled: false,
       suppressWarnings: true,
