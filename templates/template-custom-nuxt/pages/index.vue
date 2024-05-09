@@ -3,11 +3,5 @@
 </script>
 
 <template>
-  <div>
-    <NuxtPwaAssets />
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
-  </div>
-
+  <NuxtWelcome />
 </template>
