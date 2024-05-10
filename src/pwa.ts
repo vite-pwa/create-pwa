@@ -40,7 +40,7 @@ export function preparePWAOptions(
   pwaOptions.manifest = {
     name,
     short_name: shortName,
-    description: description ?? name,
+    description: description || name,
     theme_color: themeColor,
   }
   if (!pwaAssets) {

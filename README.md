@@ -78,7 +78,7 @@ Our plan is to release the first version when all Vite templates are ready:
 - [x] `SolidJS` and `SolidJS + TypeScript` templates
 
 Later we will add support for meta-frameworks:
-- [ ] `Nuxt 3` template
+- [x] `Nuxt 3` template
 - [ ] `SvelteKit` template
 - [ ] `Astro` template
 - [ ] `Remix` template

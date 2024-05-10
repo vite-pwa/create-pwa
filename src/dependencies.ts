@@ -1,7 +1,7 @@
 import { addPackageObject } from './utils'
 import type { PromptsData } from './types'
 
-export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: any) {
+export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: any, ignoreDevDependencies = false) {
   const { customServiceWorker, pwaAssets } = prompts
   if (!pwaAssets) {
     addPackageObject(
@@ -12,7 +12,7 @@ export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: a
     )
   }
 
-  if (customServiceWorker) {
+  if (customServiceWorker && !ignoreDevDependencies) {
     addPackageObject(
       'devDependencies',
       [

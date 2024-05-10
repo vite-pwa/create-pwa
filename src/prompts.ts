@@ -53,6 +53,7 @@ export const FRAMEWORKS = (<Framework[]>[
         display: 'Nuxt ↗',
         color: lightGreen,
         customCommand: 'npm exec nuxi init TARGET_DIR',
+        enabled: true,
       },
     ],
   },

@@ -61,6 +61,7 @@
     "kolorist": "^1.8.0",
     "magicast": "^0.3.4",
     "minimist": "^1.2.8",
+    "nypm": "^0.3.8",
     "prompts": "^2.4.2",
     "tsx": "^4.9.1",
     "typescript": "^5.4.5",

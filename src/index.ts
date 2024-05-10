@@ -41,7 +41,7 @@ async function init() {
     targetDir === '.' ? path.basename(path.resolve()) : targetDir
 
   let result: prompts.Answers<
-        'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant' | 'pwaName' | 'pwaShortName' | 'pwaDescription' | 'themeColor' | 'strategy' | 'behavior' | 'reloadSW' | 'offline' | 'pwaAssets'
+        'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant' | 'pwaName' | 'pwaShortName' | 'pwaDescription' | 'themeColor' | 'strategy' | 'behavior' | 'reloadSW' | 'offline' | 'pwaAssets' | 'installPWA'
     >
 
   prompts.override({
@@ -207,6 +207,14 @@ async function init() {
           active: 'yes',
           inactive: 'no',
         },
+        {
+          type: (_, { variant }) => variant === 'custom-nuxt' ? 'toggle' : null,
+          name: 'installPWA',
+          message: reset('Add PWA Install Prompt?'),
+          initial: false,
+          active: 'yes',
+          inactive: 'no',
+        },
       ],
       {
         onCancel: () => {
@@ -235,6 +243,7 @@ async function init() {
     strategy,
     offline,
     pwaAssets,
+    installPWA,
   } = result
 
   const root = path.join(cwd, targetDir)
@@ -252,7 +261,17 @@ async function init() {
     template = template.replace('-swc', '')
   }
 
+  const cdProjectName = path.relative(cwd, root)
+
+  const templateDir = path.resolve(
+    fileURLToPath(import.meta.url),
+    '../..',
+      `templates/template-${template}`,
+  )
+
   const promptsData: PromptsData = {
+    cdProjectName,
+    templateDir,
     rootPath: root,
     name: pwaName,
     shortName: pwaShortName,
@@ -264,6 +283,7 @@ async function init() {
     offline,
     reloadSW,
     pwaAssets,
+    installPWA,
   }
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
@@ -306,17 +326,11 @@ async function init() {
     const { status } = spawn.sync(command, replacedArgs, {
       stdio: 'inherit',
     })
-    await import('./customize').then(({ customize }) => customize(promptsData))
+    status === 0 && await import('./customize').then(({ customize }) => customize(promptsData))
     process.exit(status ?? 0)
   }
 
   console.log(`\nScaffolding project in ${root}...`)
-
-  const templateDir = path.resolve(
-    fileURLToPath(import.meta.url),
-    '../..',
-        `templates/template-${template}`,
-  )
 
   const write = (file: string, content?: string) => {
     const targetPath = path.join(root, renameFiles[file] ?? file)
@@ -345,7 +359,6 @@ async function init() {
   if (isReactSwc)
     setupReactSwc(root, template.endsWith('-ts'))
 
-  const cdProjectName = path.relative(cwd, root)
   console.log(`\nDone. Now run:\n`)
   if (root !== cwd) {
     console.log(
