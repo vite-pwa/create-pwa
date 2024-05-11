@@ -8,6 +8,7 @@ import { addPackageObject, editFile } from '../utils'
 import { includeDependencies } from '../dependencies'
 import { preparePWAOptions } from '../pwa'
 import { MagicastSvelteKitOptions } from '../vite'
+import { PWAAssetsVersion, SvelteKitPWAVersion, VitePluginPWAVersion, WorkboxVersion } from '../versions'
 
 export function customize(prompts: PromptsData) {
   const {
@@ -96,17 +97,17 @@ ${appDts}`,
   // devDependencies
   pkg.devDependencies ??= {}
   const devDependencies: PackageJsonEntry[] = [
-    ['@vite-pwa/assets-generator', '^0.2.4'],
-    ['@vite-pwa/sveltekit', '^0.5.0'],
-    ['vite-plugin-pwa', '^0.20.0'],
-    ['workbox-window', '^7.1.0'],
+    ['@vite-pwa/assets-generator', PWAAssetsVersion],
+    ['@vite-pwa/sveltekit', SvelteKitPWAVersion],
+    ['vite-plugin-pwa', VitePluginPWAVersion],
+    ['workbox-window', WorkboxVersion],
   ]
   if (customServiceWorker) {
     devDependencies.push(
-      ['workbox-core', '^7.1.0'],
-      ['workbox-precaching', '^7.1.0'],
-      ['workbox-routing', '^7.1.0'],
-      ['workbox-strategies', '^7.1.0'],
+      ['workbox-core', WorkboxVersion],
+      ['workbox-precaching', WorkboxVersion],
+      ['workbox-routing', WorkboxVersion],
+      ['workbox-strategies', WorkboxVersion],
     )
   }
   addPackageObject('devDependencies', devDependencies, pkg, true)
