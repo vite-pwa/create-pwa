@@ -37,12 +37,22 @@ ${appDts}`,
             'utf-8',
     )
   }
+
   // remove the favicon link from src/app.html
   const appHtml = fs.readFileSync(path.resolve(rootPath, 'src', 'app.html'), 'utf-8')
   fs.writeFileSync(
     path.resolve(rootPath, 'src', 'app.html'),
     appHtml.replace('<link rel="icon" href="%sveltekit.assets%/favicon.png" />', ''),
     'utf-8',
+  )
+
+  // remove static/favicon.png
+  fs.rmSync(path.resolve(rootPath, 'static', 'favicon.png'), { recursive: true })
+
+  // copy static/favicon.svg
+  fs.copyFileSync(
+    path.resolve(templateDir, 'static', 'favicon.svg'),
+    path.resolve(rootPath, 'static', 'favicon.svg'),
   )
 
   // copy/override src/routes/+layout.svelte
