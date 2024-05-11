@@ -9,8 +9,8 @@
 - [x] `react` and `react-ts` templates
 - [x] `preact` and `preact-ts` templates
 - [x] `solid` and `solid-ts` templates
-- [x] `nuxt` template
-- [ ] `sveltekit` template
+- [x] `nuxt` template (from `v0.1.0`)
+- [x] `sveltekit` template (from `v0.2.0`)
 - [ ] `astro` template
 - [ ] `remix` template
 - [ ] `vitepress` template
@@ -29,7 +29,7 @@
   - [x] `preact` and `preact-ts` templates
   - [x] `solid` and `solid-ts` templates
   - [x] `nuxt` template
-  - [ ] `sveltekit` template
+  - [x] `sveltekit` template
   - [ ] `astro` template
   - [ ] `remix` template
   - [ ] `vitepress` template
