@@ -47,7 +47,7 @@ ${appDts}`,
   )
 
   // remove static/favicon.png
-  fs.rmSync(path.resolve(rootPath, 'static', 'favicon.png'), { recursive: true })
+  fs.rmSync(path.resolve(rootPath, 'static', 'favicon.png'))
 
   // copy static/favicon.svg
   fs.copyFileSync(
