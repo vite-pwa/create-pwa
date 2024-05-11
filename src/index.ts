@@ -269,6 +269,9 @@ async function init() {
       `templates/template-${template}`,
   )
 
+  const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
+  const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
+
   const promptsData: PromptsData = {
     cdProjectName,
     templateDir,
@@ -284,10 +287,9 @@ async function init() {
     reloadSW,
     pwaAssets,
     installPWA,
+    pkgManager,
   }
 
-  const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
-  const pkgManager = pkgInfo ? pkgInfo.name : 'npm'
   const isYarn1 = pkgManager === 'yarn' && pkgInfo?.version.startsWith('1.')
 
   const { customCommand } = FRAMEWORKS.flatMap(f => f.variants).find(v => v.name === template) ?? {}

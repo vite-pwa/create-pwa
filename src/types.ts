@@ -45,6 +45,7 @@ export interface PromptsData {
   cdProjectName: string
   templateDir: string
   rootPath: string
+  pkgManager: string
   name: string
   shortName: string
   description?: string
