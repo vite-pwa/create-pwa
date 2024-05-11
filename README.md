@@ -50,6 +50,7 @@ Since the package name begins with `create-`, it is considered a project generat
 This command launches an interactive questionnaire in the command line for configuring different parts of the project.
 
 ```bash
+# npm
 npm create @vite-pwa/pwa@latest
 
 # yarn
@@ -78,8 +79,8 @@ Our plan is to release the first version when all Vite templates are ready:
 - [x] `SolidJS` and `SolidJS + TypeScript` templates
 
 Later we will add support for meta-frameworks:
-- [x] `Nuxt 3` template
-- [ ] `SvelteKit` template
+- [x] `Nuxt 3` template (from `v0.1.0`)
+- [x] `SvelteKit` template (from `v0.2.0`)
 - [ ] `Astro` template
 - [ ] `Remix` template
 - [ ] `VitePress` template

@@ -160,6 +160,7 @@ export const FRAMEWORKS = (<Framework[]>[
         display: 'SvelteKit ↗',
         color: red,
         customCommand: 'npm create svelte@latest TARGET_DIR',
+        enabled: true,
       },
     ],
   },

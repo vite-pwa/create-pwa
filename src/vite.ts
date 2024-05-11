@@ -14,3 +14,18 @@ export const MagicastViteOptions = {
     useSemi: false,
   },
 } satisfies GenerateOptions
+
+export const MagicastSvelteKitOptions = {
+  trailingComma: false,
+  quote: 'single',
+  arrayBracketSpacing: false,
+  objectCurlySpacing: true,
+  lineTerminator: '\n',
+  format: {
+    trailingComma: false,
+    quote: 'single',
+    arrayBracketSpacing: false,
+    objectCurlySpacing: true,
+    useSemi: true,
+  },
+} satisfies GenerateOptions

@@ -9,6 +9,14 @@ import { preparePWAOptions } from '../pwa'
 import { MagicastViteOptions } from '../vite'
 import { addPackageObject } from '../utils'
 import { includeDependencies } from '../dependencies'
+import {
+  NuxtPWAModuleVersion,
+  PWAAssetsVersion,
+  TypeScriptVersion,
+  VitePluginPWAVersion,
+  VueTscVersion,
+  WorkboxVersion,
+} from '../versions'
 
 export async function customize(prompts: PromptsData) {
   const {
@@ -62,26 +70,26 @@ export async function customize(prompts: PromptsData) {
   // dependencies
   pkg.dependencies ??= {}
   const dependencies: PackageJsonEntry[] = [
-    ['@vite-pwa/assets-generator', '^0.2.4'],
-    ['@vite-pwa/nuxt', '^0.7.0'],
-    ['vite-plugin-pwa', '^0.20.0'],
-    ['workbox-build', '^7.1.0'],
-    ['workbox-window', '^7.1.0'],
+    ['@vite-pwa/assets-generator', PWAAssetsVersion],
+    ['@vite-pwa/nuxt', NuxtPWAModuleVersion],
+    ['vite-plugin-pwa', VitePluginPWAVersion],
+    ['workbox-build', WorkboxVersion],
+    ['workbox-window', WorkboxVersion],
   ]
   if (customServiceWorker) {
     dependencies.push(
-      ['workbox-core', '^7.1.0'],
-      ['workbox-precaching', '^7.1.0'],
-      ['workbox-routing', '^7.1.0'],
-      ['workbox-strategies', '^7.1.0'],
+      ['workbox-core', WorkboxVersion],
+      ['workbox-precaching', WorkboxVersion],
+      ['workbox-routing', WorkboxVersion],
+      ['workbox-strategies', WorkboxVersion],
     )
   }
   addPackageObject('dependencies', dependencies, pkg, true)
   // devDependencies
   pkg.devDependencies ??= {}
   addPackageObject('devDependencies', [
-    ['typescript', '^5.4.5'],
-    ['vue-tsc', '^2.0.16'],
+    ['typescript', TypeScriptVersion],
+    ['vue-tsc', VueTscVersion],
   ], pkg, true)
   // script + resolutions: ignoring dev dependencies
   includeDependencies(prompts, pkgManager === 'npm', pkg, true)
