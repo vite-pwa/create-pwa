@@ -12,7 +12,7 @@
 - [x] `nuxt` template (from `v0.1.0`)
 - [x] `sveltekit` template (from `v0.2.0`)
 - [ ] `astro` template
-- [ ] `remix` template
+- [x] `remix` template (from `v0.3.0`)
 - [ ] `vitepress` template
 - [ ] `qwik-city` template
 - [ ] remove unused templates
@@ -31,6 +31,6 @@
   - [x] `nuxt` template
   - [x] `sveltekit` template
   - [ ] `astro` template
-  - [ ] `remix` template
+  - [x] `remix` template
   - [ ] `vitepress` template
   - [ ] `qwik-city` template

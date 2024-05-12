@@ -82,7 +82,7 @@ Later we will add support for meta-frameworks:
 - [x] `Nuxt 3` template (from `v0.1.0`)
 - [x] `SvelteKit` template (from `v0.2.0`)
 - [ ] `Astro` template
-- [ ] `Remix` template
+- [x] `Remix` template (from `v0.3.0`)
 - [ ] `VitePress` template
 - [ ] `Qwik City` template
 
