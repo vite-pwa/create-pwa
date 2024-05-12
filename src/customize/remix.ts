@@ -79,24 +79,28 @@ export function customize(prompts: PromptsData) {
   // override vite.config content
   writeViteConfig(rootPath, prompts)
 
-  // prepare tsconfig.json file
+  // add types to tsconfig.json
   editFile(path.resolve(rootPath, 'tsconfig.json'), (content) => {
-    return JSON.stringify(
-      JSON.parse(content.split('\n').filter(l => !l.trim().startsWith('//')).join('\n')),
+    // remove noEmit comment and parse content
+    const tsConfig = JSON.parse(content.split('\n').filter(l => !l.trim().startsWith('//')).join('\n'))
+    tsConfig.compilerOptions ??= {}
+    tsConfig.compilerOptions.types ??= []
+    tsConfig.compilerOptions.types.push(
+      'vite-plugin-pwa/info',
+      'vite-plugin-pwa/pwa-assets',
+      'vite-plugin-pwa/react',
+      '@vite-pwa/remix',
+      '@vite-pwa/remix/remix-sw',
     )
+    // stringify and return JSON adding back noEmit comment
+    return JSON
+      .stringify(tsConfig, null, 2)
+      .replace(
+        '"noEmit": true',
+            `// Vite takes care of building everything, not tsc.
+    "noEmit": true`,
+      )
   })
-  const tsConfig = JSON.parse(fs.readFileSync(path.join(rootPath, 'tsconfig.json'), 'utf-8'))
-  tsConfig.compilerOptions ??= {}
-  tsConfig.compilerOptions.types ??= []
-  tsConfig.compilerOptions.types.push(
-    'vite-plugin-pwa/info',
-    'vite-plugin-pwa/pwa-assets',
-    'vite-plugin-pwa/react',
-    '@vite-pwa/remix',
-    '@vite-pwa/remix/remix-sw',
-  )
-  // save tsconfig.json
-  fs.writeFileSync(path.join(rootPath, 'tsconfig.json'), JSON.stringify(tsConfig, null, 2), 'utf-8')
 
   // prepare package.json
   const pkg = JSON.parse(fs.readFileSync(path.join(rootPath, 'package.json'), 'utf-8'))
