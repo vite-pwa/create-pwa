@@ -29,3 +29,18 @@ export const MagicastSvelteKitOptions = {
     useSemi: true,
   },
 } satisfies GenerateOptions
+
+export const MagicastRemixOptions = {
+  trailingComma: true,
+  quote: 'double',
+  arrayBracketSpacing: false,
+  objectCurlySpacing: true,
+  lineTerminator: '\n',
+  format: {
+    trailingComma: true,
+    quote: 'double',
+    arrayBracketSpacing: false,
+    objectCurlySpacing: true,
+    useSemi: true,
+  },
+} satisfies GenerateOptions

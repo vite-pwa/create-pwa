@@ -94,6 +94,7 @@ export const FRAMEWORKS = (<Framework[]>[
         display: 'Remix ↗',
         color: cyan,
         customCommand: 'npm create remix@latest TARGET_DIR',
+        enabled: true,
       },
     ],
   },
