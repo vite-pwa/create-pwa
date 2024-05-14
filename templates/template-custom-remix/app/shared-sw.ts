@@ -1,4 +1,4 @@
-import { dynamicRoutes, staticRoutes } from "virtual:vite-pwa/remix/sw";
+import { dynamicRoutes, navigateFallback, ssr, staticRoutes } from "virtual:vite-pwa/remix/sw";
 import { registerRoute } from "workbox-routing";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 import { NetworkOnly, StaleWhileRevalidate } from "workbox-strategies";
@@ -35,6 +35,7 @@ export function setupRoutes() {
         "GET",
       );
     }
+    const redirect = ssr ? (navigateFallback ?? "/"): "index.html";
     if (useDynamicRoutes.length) {
       const dynamicRoutesRegexp = new RegExp(`^${baseUrl}(${useDynamicRoutes.map((r) => {
         const parts = r.split("/");
@@ -50,11 +51,26 @@ export function setupRoutes() {
           plugins: [{
             handlerDidError: async ({ state, error }) => {
               console.log(state, error)
-              return Response.redirect("/", 302)
+              return Response.redirect(redirect, 302)
             },
           }],
         }),
       );
     }
+
+    // when requesting a missing page:
+    // - if offline, this handler will redirect to the fallback page
+    // - when online, the remix app should handler 404 properly
+    registerRoute(
+        ({ request, sameOrigin }) => request.destination === "document" && sameOrigin,
+        new NetworkOnly({
+          plugins: [{
+            handlerDidError: async ({ state, error }) => {
+              console.log(state, error)
+              return Response.redirect(redirect, 302)
+            },
+          }],
+        }),
+    );
   }
 }

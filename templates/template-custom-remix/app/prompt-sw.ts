@@ -40,6 +40,13 @@ if (import.meta.env.DEV) {
   }
 }
 
+// in ssr mode, we only intercept root page
+if (import.meta.env.PROD) {
+  if (ssr) {
+    allowlist = [new RegExp(`^${url}$`)];
+  }
+}
+
 // to allow work offline
 registerRoute(new NavigationRoute(
     createHandlerBoundToURL(ssr ? url : "index.html"),
