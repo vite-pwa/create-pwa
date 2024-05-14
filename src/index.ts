@@ -325,6 +325,7 @@ async function init() {
     const [command, ...args] = fullCustomCommand.split(' ')
     // we replace TARGET_DIR here because targetDir may include a space
     const replacedArgs = args.map(arg => arg.replace('TARGET_DIR', targetDir))
+    console.log(replacedArgs)
     const { status } = spawn.sync(command, replacedArgs, {
       stdio: 'inherit',
     })

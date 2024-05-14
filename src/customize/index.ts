@@ -15,6 +15,10 @@ export async function customize(prompts: PromptsData) {
     case 'vue-ts':
       await import('./vue').then(({ customize }) => customize(prompts))
       break
+    case 'vitepress':
+    case 'vitepress-ts':
+      await import('./vitepress').then(({ customize }) => customize(prompts))
+      break
     case 'react':
     case 'react-ts':
       await import('./react').then(({ customize }) => customize(prompts))
