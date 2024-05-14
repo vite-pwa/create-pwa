@@ -3,17 +3,21 @@ import { cleanupOutdatedCaches, createHandlerBoundToURL, precacheAndRoute } from
 import { clientsClaim } from "workbox-core";
 import { NavigationRoute, registerRoute } from "workbox-routing";
 import { setupRoutes } from "./shared-sw";
-import { ssr } from "@vite-pwa/remix/sw";
+import { ssr, navigateFallback } from "virtual:vite-pwa/remix/sw";
 
 declare let self: ServiceWorkerGlobalScope;
+
+const url = navigateFallback ?? "/";
 
 // self.__WB_MANIFEST is the default injection point
 const manifest = self.__WB_MANIFEST
 if (import.meta.env.DEV) {
-  if (ssr) {
-    // add the navigateFallback to the manifest
-    manifest.push({ url: "/", revision: Math.random().toString() });
+  const entry = manifest.findIndex((entry) => typeof entry !== 'string' && entry.url === url);
+  if (entry !== -1) {
+    manifest.splice(entry, 1);
   }
+  // add the navigateFallback to the manifest
+  manifest.push({ url, revision: Math.random().toString() });
 }
 
 precacheAndRoute(manifest);
@@ -23,12 +27,25 @@ cleanupOutdatedCaches();
 
 let allowlist: RegExp[] | undefined;
 // in dev mode, we disable precaching to avoid caching issues
-if (import.meta.env.DEV)
-  allowlist = [/^\/$/];
+if (import.meta.env.DEV) {
+  if (ssr) {
+    // add the navigateFallback to the manifest
+    allowlist = [new RegExp(`^${url}$`)];
+  } else {
+    allowlist = [/^index.html$/];
+  }
+}
+
+// in ssr mode, we only intercept root page
+if (import.meta.env.PROD) {
+  if (ssr) {
+    allowlist = [new RegExp(`^${url}$`)];
+  }
+}
 
 // to allow work offline
 registerRoute(new NavigationRoute(
-  createHandlerBoundToURL(ssr ? "/" : "index.html"),
+  createHandlerBoundToURL(ssr ? url : "index.html"),
   { allowlist },
 ));
 
