@@ -35,7 +35,7 @@ export function customize(prompts: PromptsData) {
   // update app/routes/_index.tsx
   editFile(path.resolve(rootPath, 'app', 'routes', '_index.tsx'), (content) => {
     return content
-      .replace('"New Remix App"', `title: "${name}"`)
+      .replace('"New Remix App"', `"${name}"`)
       .replace('{ name: "description", content: "Welcome to Remix!" },', `{ name: "description", content: "${description || name}!" },`)
       .replace('<h1>Welcome to Remix</h1>', `<h1>Welcome to ${name}</h1>`)
   })
