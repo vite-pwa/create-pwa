@@ -59,7 +59,7 @@ export function setupRoutes() {
     }
 
     // when requesting a missing page:
-    // - if offline, this handler will redirect to the fallback page
+    // - when offline, this handler will redirect to the fallback page
     // - when online, the remix app should handler 404 properly
     registerRoute(
         ({ request, sameOrigin }) => request.destination === "document" && sameOrigin,

@@ -29,7 +29,6 @@ let allowlist: RegExp[] | undefined;
 // in dev mode, we disable precaching to avoid caching issues
 if (import.meta.env.DEV) {
   if (ssr) {
-    // add the navigateFallback to the manifest
     allowlist = [new RegExp(`^${url}$`)];
   } else {
     allowlist = [/^index.html$/];
