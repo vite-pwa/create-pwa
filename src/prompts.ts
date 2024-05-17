@@ -55,6 +55,18 @@ export const FRAMEWORKS = (<Framework[]>[
         customCommand: 'npm exec nuxi init TARGET_DIR',
         enabled: true,
       },
+      {
+        name: 'vitepress-ts',
+        display: 'VitePress + TypeScript',
+        color: blue,
+        enabled: true,
+      },
+      {
+        name: 'vitepress',
+        display: 'VitePress + JavaScript',
+        color: yellow,
+        enabled: true,
+      },
     ],
   },
   {
@@ -159,7 +171,7 @@ export const FRAMEWORKS = (<Framework[]>[
       {
         name: 'custom-svelte-kit',
         display: 'SvelteKit ↗',
-        color: red,
+        color: cyan,
         customCommand: 'npm create svelte@latest TARGET_DIR',
         enabled: true,
       },
