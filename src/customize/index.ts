@@ -32,7 +32,10 @@ export async function customize(prompts: PromptsData) {
       await import('./svelte').then(({ customize }) => customize(prompts))
       break
     case 'custom-nuxt':
-      await import('./nuxt').then(({ customize }) => customize(prompts))
+      await import('./nuxt').then(({ customize }) => customize(prompts, false))
+      break
+    case 'custom-nuxt-v4':
+      await import('./nuxt').then(({ customize }) => customize(prompts, true))
       break
     case 'custom-remix':
       await import('./remix').then(({ customize }) => customize(prompts))
