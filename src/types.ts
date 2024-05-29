@@ -10,7 +10,7 @@ export interface Framework {
 
 export type FrameworkVariantKey =
   | 'vanilla' | 'vanilla-ts'
-  | 'vue' | 'vue-ts' | 'custom-nuxt'
+  | 'vue' | 'vue-ts' | 'custom-nuxt' | 'custom-nuxt-v4'
   | 'react' | 'react-ts'
   | 'preact' | 'preact-ts'
   | 'svelte' | 'svelte-ts' | 'custom-svelte-kit'

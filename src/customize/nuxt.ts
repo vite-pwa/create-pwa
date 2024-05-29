@@ -18,19 +18,20 @@ import {
   WorkboxVersion,
 } from '../versions'
 
-export async function customize(prompts: PromptsData) {
+export async function customize(prompts: PromptsData, v4: boolean) {
   const {
     cdProjectName,
-    templateDir,
-    rootPath,
+    templateDir: templateDirFolder,
+    rootPath: outputRootPath,
     customServiceWorker,
     prompt,
     pwaAssets,
   } = prompts
+  const [rootPath, templateDir] = getPaths(outputRootPath, templateDirFolder, v4)
   // cleanup target folder
   fs.rmSync(path.join(rootPath, 'app.vue'), { recursive: true })
-  fs.rmSync(path.join(rootPath, 'nuxt.config.ts'), { recursive: true })
-  fs.rmSync(path.join(rootPath, 'public'), { recursive: true })
+  fs.rmSync(path.join(outputRootPath, 'nuxt.config.ts'), { recursive: true })
+  fs.rmSync(path.join(outputRootPath, 'public'), { recursive: true })
   // extract template-nuxt folder
   fs.copyFileSync(path.join(templateDir, 'app.vue'), path.join(rootPath, 'app.vue'))
   fs.mkdirSync(path.join(rootPath, 'layouts'))
@@ -44,28 +45,51 @@ export async function customize(prompts: PromptsData) {
     path.join(templateDir, 'pages', 'index.vue'),
     path.join(rootPath, 'pages', 'index.vue'),
   )
-  fs.mkdirSync(path.join(rootPath, 'public'))
-  fs.copyFileSync(path.join(templateDir, 'public', 'favicon.svg'), path.join(rootPath, 'public', 'favicon.svg'))
-  fs.copyFileSync(path.join(templateDir, 'pwa-assets.config.ts'), path.join(rootPath, 'pwa-assets.config.ts'))
+  fs.mkdirSync(path.join(outputRootPath, 'public'))
+  fs.copyFileSync(path.join(templateDir, 'public', 'favicon.svg'), path.join(outputRootPath, 'public', 'favicon.svg'))
+
+  // v4 root inside app: public folder on root
+  if (v4 && pwaAssets) {
+    const pwaAssets = fs.readFileSync(path.join(templateDir, 'pwa-assets.config.ts'), 'utf-8')
+    fs.writeFileSync(
+      path.join(outputRootPath, 'app/pwa-assets.config.ts'),
+      pwaAssets.replace('images: [\'public/favicon.svg\'],', 'images: [\'../public/favicon.svg\'],'),
+      'utf-8',
+    )
+  }
+  else {
+    fs.copyFileSync(path.join(templateDir, 'pwa-assets.config.ts'), path.join(outputRootPath, 'pwa-assets.config.ts'))
+  }
+
   if (customServiceWorker) {
     fs.mkdirSync(path.join(rootPath, 'service-worker'))
     fs.copyFileSync(
       path.join(templateDir, 'service-worker', `${prompt ? 'prompt' : 'claims'}-sw.ts`),
       path.join(rootPath, 'service-worker', 'sw.ts'),
     )
-    fs.copyFileSync(
-      path.join(templateDir, 'service-worker', 'tsconfig.json'),
-      path.join(rootPath, 'service-worker', 'tsconfig.json'),
-    )
+    if (v4) {
+      const tsConfig = fs.readFileSync(path.join(templateDir, 'service-worker', 'tsconfig.json'), 'utf-8')
+      fs.writeFileSync(
+        path.join(rootPath, 'service-worker', 'tsconfig.json'),
+        tsConfig.replace('"extends": "../tsconfig.json",', '"extends": "../../tsconfig.json",'),
+        'utf-8',
+      )
+    }
+    else {
+      fs.copyFileSync(
+        path.join(templateDir, 'service-worker', 'tsconfig.json'),
+        path.join(rootPath, 'service-worker', 'tsconfig.json'),
+      )
+    }
   }
 
   // create nuxt.config.ts
-  createNuxtConf(prompts)
+  createNuxtConf(prompts, v4)
 
   // prepare package.json
-  const pkg = JSON.parse(fs.readFileSync(path.join(rootPath, 'package.json'), 'utf-8'))
+  const pkg = JSON.parse(fs.readFileSync(path.join(outputRootPath, 'package.json'), 'utf-8'))
 
-  const pkgManager = await detectPackageManager(rootPath).then(res => res?.name || 'npm')
+  const pkgManager = await detectPackageManager(outputRootPath).then(res => res?.name || 'npm')
 
   // dependencies
   pkg.dependencies ??= {}
@@ -95,10 +119,10 @@ export async function customize(prompts: PromptsData) {
   includeDependencies(prompts, pkgManager === 'npm', pkg, true)
 
   // save package.json
-  fs.writeFileSync(path.join(rootPath, 'package.json'), JSON.stringify(pkg, null, 2), 'utf-8')
+  fs.writeFileSync(path.join(outputRootPath, 'package.json'), JSON.stringify(pkg, null, 2), 'utf-8')
 
   console.log('\n\nPWA configuration done. Now run:\n')
-  if (rootPath !== process.cwd()) {
+  if (outputRootPath !== process.cwd()) {
     console.log(
         `  cd ${
             cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
@@ -122,7 +146,7 @@ export async function customize(prompts: PromptsData) {
   console.log()
 }
 
-function createNuxtConf(prompts: PromptsData) {
+function createNuxtConf(prompts: PromptsData, v4: boolean) {
   const {
     rootPath,
     customServiceWorker,
@@ -157,32 +181,7 @@ function createNuxtConf(prompts: PromptsData) {
       pwaOptions.client.installPrompt = true
   }
 
-  const nuxtConf = customServiceWorker
-    ? parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-  typescript: {
-    tsConfig: {
-      exclude: ['../service-worker'],
-    },
-  },
-  devtools: { enabled: true },
-  nitro: {
-    prerender: {
-      routes: ['/'],
-    },
-  },
-})
-`)
-    : parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
-export default defineNuxtConfig({
-  devtools: { enabled: true },
-  nitro: {
-    prerender: {
-      routes: ['/'],
-    },
-  },
-})
-`)
+  const nuxtConf = prepareNuxtConf(customServiceWorker === true, v4)
   addNuxtModule(nuxtConf, '@vite-pwa/nuxt', 'pwa', pwaOptions)
   fs.writeFileSync(
     path.join(rootPath, 'nuxt.config.ts'),
@@ -312,4 +311,78 @@ function createLayout(prompts: PromptsData) {
 `
 
   return content
+}
+
+function prepareNuxtConfV3(customServiceWorker: boolean): ReturnType<typeof parseModule> {
+  return customServiceWorker
+    ? parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  typescript: {
+    tsConfig: {
+      exclude: ['../service-worker'],
+    },
+  },
+  devtools: { enabled: true },
+  nitro: {
+    prerender: {
+      routes: ['/'],
+    },
+  },
+})
+`)
+    : parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  devtools: { enabled: true },
+  nitro: {
+    prerender: {
+      routes: ['/'],
+    },
+  },
+})
+`)
+}
+
+function prepareNuxtConfV4(customServiceWorker: boolean): ReturnType<typeof parseModule> {
+  return customServiceWorker
+    ? parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4
+  },
+  typescript: {
+    tsConfig: {
+      exclude: ['../app/service-worker'],
+    },
+  },
+  devtools: { enabled: true },
+  nitro: {
+    prerender: {
+      routes: ['/'],
+    },
+  },
+})
+`)
+    : parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
+export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4
+  },
+  devtools: { enabled: true },
+  nitro: {
+    prerender: {
+      routes: ['/'],
+    },
+  },
+})
+`)
+}
+
+function getPaths(rootPath: string, templateDir: string, v4: boolean): [rootPath: string, templateDir: string] {
+  return v4
+    ? [path.join(rootPath, 'app'), templateDir.replace('template-custom-nuxt-v4', 'template-custom-nuxt')]
+    : [rootPath, templateDir]
+}
+
+function prepareNuxtConf(customSW: boolean, v4: boolean): ReturnType<typeof parseModule> {
+  return v4 ? prepareNuxtConfV4(customSW) : prepareNuxtConfV3(customSW)
 }
