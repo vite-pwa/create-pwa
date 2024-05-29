@@ -208,7 +208,7 @@ async function init() {
           inactive: 'no',
         },
         {
-          type: (_, { variant }) => variant === 'custom-nuxt' ? 'toggle' : null,
+          type: (_, { variant }) => variant === 'custom-nuxt' || variant === 'custom-nuxt-v4' ? 'toggle' : null,
           name: 'installPWA',
           message: reset('Add PWA Install Prompt?'),
           initial: false,
