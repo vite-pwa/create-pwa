@@ -80,6 +80,7 @@ Our plan is to release the first version when all Vite templates are ready:
 
 Later we will add support for meta-frameworks:
 - [x] `Nuxt 3` template (from `v0.1.0`)
+- [x] `Nuxt 3 Compatibility Version 4 (Nuxt 4)` template (from `v0.4.0`)
 - [x] `SvelteKit` template (from `v0.2.0`)
 - [ ] `Astro` template
 - [x] `Remix` template (from `v0.3.0`)
