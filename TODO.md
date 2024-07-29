@@ -10,7 +10,7 @@
 - [x] `preact` and `preact-ts` templates
 - [x] `solid` and `solid-ts` templates
 - [x] `nuxt 3` template (from `v0.1.0`)
-- [x] `nuxt 3 v4-compact` template (from `v0.4.0`)
+- [x] `nuxt 3 v4-compat` template (from `v0.4.0`)
 - [x] `sveltekit` template (from `v0.2.0`)
 - [ ] `astro` template
 - [x] `remix` template (from `v0.3.0`)
