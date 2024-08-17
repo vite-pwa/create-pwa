@@ -1,6 +1,6 @@
 <p align='center'>
 <img src='./hero.png' alt="@vite-pwa/create-pwa - PWA Templates"><br>
-PWA Templates
+PWA TemplatesX
 </p>
 
 <p align='center'>
