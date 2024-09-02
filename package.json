@@ -10,7 +10,7 @@
   "homepage": "https://github.com/vite-pwa/create-pwa#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vite-pwa/create-pwa.git"
+    "url": "git+https://github.com/vite-pwa/create-pwa.git"
   },
   "bugs": "https://github.com/vite-pwa/create-pwa/issues",
   "keywords": [
