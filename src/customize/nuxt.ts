@@ -3,7 +3,7 @@ import path from 'node:path'
 import process from 'node:process'
 import { addNuxtModule } from 'magicast/helpers'
 import { generateCode, parseModule } from 'magicast'
-import { detectPackageManager } from 'nypm'
+import { detect } from 'package-manager-detector'
 import type { PackageJsonEntry, PromptsData } from '../types'
 import { preparePWAOptions } from '../pwa'
 import { MagicastViteOptions } from '../vite'
@@ -89,7 +89,9 @@ export async function customize(prompts: PromptsData, v4: boolean) {
   // prepare package.json
   const pkg = JSON.parse(fs.readFileSync(path.join(outputRootPath, 'package.json'), 'utf-8'))
 
-  const pkgManager = await detectPackageManager(outputRootPath).then(res => res?.name || 'npm')
+  const pkgManager = await detect({
+    cwd: outputRootPath,
+  }).then(res => res?.name || 'npm')
 
   // dependencies
   pkg.dependencies ??= {}
