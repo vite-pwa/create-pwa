@@ -167,7 +167,7 @@ export const FRAMEWORKS = (<Framework[]>[
         name: 'custom-svelte-kit',
         display: 'SvelteKit ↗',
         color: red,
-        customCommand: 'npm create svelte@latest TARGET_DIR',
+        customCommand: 'npm exec sv create TARGET_DIR',
         enabled: true,
       },
     ],

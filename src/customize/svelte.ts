@@ -30,12 +30,12 @@ export function customize(prompts: PromptsData) {
         )
         .replace('offlineReady.set(false)', '')
         .replace(
-          '$: toast = $offlineReady || $needRefresh',
-          '$: toast = $needRefresh',
+          'let toast = $derived($offlineReady || $needRefresh)',
+          'let toast = $derived($needRefresh)',
         )
         .replace(
-          '$: message = $offlineReady ? \'App ready to work offline\' : ($needRefresh ? \'New content available, click on reload button to update.\' : \'\')',
-          '$: message = $needRefresh ? \'New content available, click on reload button to update.\' : \'\'',
+          'let message = $derived($offlineReady ? \'App ready to work offline\' : ($needRefresh ? \'New content available, click on reload button to update.\' : \'\'))',
+          'let message = $derived($needRefresh ? \'New content available, click on reload button to update.\' : \'\')',
         )
     }
 

@@ -51,8 +51,8 @@
       needRefresh.set(false)
   }
 
-  $: toast = $offlineReady || $needRefresh
-  $: message = $offlineReady ? 'App ready to work offline' : ($needRefresh ? 'New content available, click on reload button to update.' : '')
+  let toast = $derived($offlineReady || $needRefresh)
+  let message = $derived($offlineReady ? 'App ready to work offline' : ($needRefresh ? 'New content available, click on reload button to update.' : ''))
 </script>
 
 {#if toast}
@@ -68,11 +68,11 @@
     </div>
     <div class="buttons">
       {#if $needRefresh}
-        <button type="button" on:click={() => updateServiceWorker(true)}>
+        <button type="button" onclick={() => updateServiceWorker(true)}>
           Reload
         </button>
       {/if}
-      <button type="button" on:click={close}>
+      <button type="button" onclick={close}>
         Close
       </button>
     </div>
