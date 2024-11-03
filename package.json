@@ -1,7 +1,7 @@
 {
   "name": "@vite-pwa/create-pwa",
   "type": "module",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "packageManager": "pnpm@9.12.3",
   "description": "PWA Templates",
   "author": "antfu <anthonyfu117@hotmail.com>",
