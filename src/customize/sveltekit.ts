@@ -8,14 +8,14 @@ import { addPackageObject, editFile } from '../utils'
 import { includeDependencies } from '../dependencies'
 import { preparePWAOptions } from '../pwa'
 import { MagicastSvelteKitOptions } from '../vite'
+import { detect } from 'package-manager-detector'
 import { PWAAssetsVersion, SvelteKitPWAVersion, VitePluginPWAVersion, WorkboxVersion } from '../versions'
 
-export function customize(prompts: PromptsData) {
+export async function customize(prompts: PromptsData) {
   const {
     cdProjectName,
     templateDir,
     rootPath,
-    pkgManager,
     prompt,
     customServiceWorker,
     pwaAssets,
@@ -57,10 +57,22 @@ ${appDts}`,
 
   // copy/override src/routes/+layout.svelte
   const existsLayout = fs.existsSync(path.resolve(rootPath, 'src', 'routes', '+layout.svelte'))
+  const layoutFile = path.resolve(rootPath, 'src', 'routes', '+layout.svelte')
   fs.copyFileSync(
     path.resolve(templateDir, 'src', 'routes', `${existsLayout ? 'app-layout' : 'layout'}.svelte`),
-    path.resolve(rootPath, 'src', 'routes', '+layout.svelte'),
+    layoutFile,
   )
+
+  if (ts) {
+    editFile(layoutFile, (content) => {
+      content = content.replace(/<script>/, '<script lang="ts">')
+      return content.replace('let { children } = $props();', `
+    interface Props {
+      children?: import('svelte').Snippet;
+    }  
+    let { children }: Props = $props();`)
+    })
+  }
 
   // copy/override src/routes/+page.ts for base and lib templates
   fs.copyFileSync(
@@ -121,6 +133,10 @@ ${appDts}`,
     )
   }
   addPackageObject('devDependencies', devDependencies, pkg, true)
+
+  const pkgManager = await detect({
+    cwd: rootPath,
+  }).then(res => res?.name || 'npm')
   // script + resolutions: ignoring dev dependencies
   includeDependencies(prompts, pkgManager === 'npm', pkg, true)
 
@@ -130,9 +146,9 @@ ${appDts}`,
   console.log('\n\nPWA configuration done. Now run:\n')
   if (rootPath !== process.cwd()) {
     console.log(
-            `  cd ${
-                cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
-            }`,
+        `  cd ${
+            cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+        }`,
     )
   }
   switch (pkgManager) {
@@ -177,14 +193,14 @@ function copyPWABadge(ts: boolean, jsTs: boolean, prompts: PromptsData) {
         'const { needRefresh, updateServiceWorker } = useRegisterSW({',
       )
       .replace('offlineReady.set(false)', '')
-      .replace(
-        '$: toast = $offlineReady || $needRefresh',
-        '$: toast = $needRefresh',
-      )
-      .replace(
-        '$: message = $offlineReady ? \'App ready to work offline\' : ($needRefresh ? \'New content available, click on reload button to update.\' : \'\')',
-        '$: message = $needRefresh ? \'New content available, click on reload button to update.\' : \'\'',
-      )
+        .replace(
+            'let toast = $derived($offlineReady || $needRefresh)',
+            'let toast = $derived($needRefresh)',
+        )
+        .replace(
+            'let message = $derived($offlineReady ? \'App ready to work offline\' : ($needRefresh ? \'New content available, click on reload button to update.\' : \'\'))',
+            'let message = $derived($needRefresh ? \'New content available, click on reload button to update.\' : \'\')',
+        )
   }
 
   if (reloadSW) {

@@ -2,7 +2,8 @@
 	import { pwaInfo } from 'virtual:pwa-info';
 	import { pwaAssetsHead } from 'virtual:pwa-assets/head';
 
-	$: webManifest = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+	let { children } = $props();
+	let webManifest = $derived(pwaInfo ? pwaInfo.webManifest.linkTag : '')
 </script>
 
 <svelte:head>
@@ -17,7 +18,7 @@
 
 <div class="app">
 	<main>
-		<slot />
+		{@render children?.()}
 	</main>
 	{#await import('$lib/PWABadge.svelte') then { default: PWABadge }}
 		<PWABadge />
