@@ -1,14 +1,13 @@
+import type { PackageJsonEntry, PromptsData } from '../types'
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
-import { addNuxtModule } from 'magicast/helpers'
 import { generateCode, parseModule } from 'magicast'
+import { addNuxtModule } from 'magicast/helpers'
 import { detect } from 'package-manager-detector'
-import type { PackageJsonEntry, PromptsData } from '../types'
-import { preparePWAOptions } from '../pwa'
-import { MagicastViteOptions } from '../vite'
-import { addPackageObject } from '../utils'
 import { includeDependencies } from '../dependencies'
+import { preparePWAOptions } from '../pwa'
+import { addPackageObject } from '../utils'
 import {
   NuxtPWAModuleVersion,
   PWAAssetsVersion,
@@ -17,6 +16,7 @@ import {
   VueTscVersion,
   WorkboxVersion,
 } from '../versions'
+import { MagicastViteOptions } from '../vite'
 
 export async function customize(prompts: PromptsData, v4: boolean) {
   const {
@@ -126,9 +126,9 @@ export async function customize(prompts: PromptsData, v4: boolean) {
   console.log('\n\nPWA configuration done. Now run:\n')
   if (outputRootPath !== process.cwd()) {
     console.log(
-        `  cd ${
-            cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
-        }`,
+      `  cd ${
+        cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+      }`,
     )
   }
   switch (pkgManager) {

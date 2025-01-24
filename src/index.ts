@@ -1,16 +1,16 @@
+import type { Framework, FrameworkVariantKey, PromptsData } from './types'
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import process from 'node:process'
+import { fileURLToPath } from 'node:url'
 import spawn from 'cross-spawn'
-import minimist from 'minimist'
-import prompts from 'prompts'
 import {
   red,
   reset,
 } from 'kolorist'
+import minimist from 'minimist'
+import prompts from 'prompts'
 import { includeDependencies } from './dependencies'
-import type { Framework, FrameworkVariantKey, PromptsData } from './types'
 import { FRAMEWORKS, PWA_BEHAVIORS, PWA_STRATEGIES } from './prompts'
 import { editFile } from './utils'
 
@@ -42,7 +42,7 @@ async function init() {
 
   let result: prompts.Answers<
         'projectName' | 'overwrite' | 'packageName' | 'framework' | 'variant' | 'pwaName' | 'pwaShortName' | 'pwaDescription' | 'themeColor' | 'strategy' | 'behavior' | 'reloadSW' | 'offline' | 'pwaAssets' | 'installPWA'
-    >
+  >
 
   prompts.override({
     overwrite: argv.overwrite,
@@ -67,7 +67,7 @@ async function init() {
             `${targetDir === '.'
               ? 'Current directory'
               : `Target directory "${targetDir}"`
-                         } is not empty. Please choose how to proceed:`,
+            } is not empty. Please choose how to proceed:`,
           initial: 0,
           choices: [
             {
@@ -106,8 +106,8 @@ async function init() {
           name: 'framework',
           message: typeof argTemplate === 'string' && !TEMPLATES.includes(argTemplate as any)
             ? reset(
-              `"${argTemplate}" isn't a valid template. Please choose from below: `,
-            )
+                `"${argTemplate}" isn't a valid template. Please choose from below: `,
+              )
             : reset('Select a framework:'),
           initial: 0,
           choices: FRAMEWORKS.map((framework) => {
@@ -266,7 +266,7 @@ async function init() {
   const templateDir = path.resolve(
     fileURLToPath(import.meta.url),
     '../..',
-      `templates/template-${template}`,
+    `templates/template-${template}`,
   )
 
   const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent)
@@ -364,9 +364,9 @@ async function init() {
   console.log(`\nDone. Now run:\n`)
   if (root !== cwd) {
     console.log(
-            `  cd ${
-                cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
-            }`,
+      `  cd ${
+        cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+      }`,
     )
   }
   switch (pkgManager) {
@@ -454,7 +454,7 @@ function setupReactSwc(root: string, isTs: boolean) {
   editFile(path.resolve(root, 'package.json'), (content) => {
     return content.replace(
       /"@vitejs\/plugin-react": ".+?"/,
-            `"@vitejs/plugin-react-swc": "^3.5.0"`,
+      `"@vitejs/plugin-react-swc": "^3.5.0"`,
     )
   })
   editFile(

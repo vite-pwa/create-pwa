@@ -2,10 +2,10 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// https://vitejs.dev/config/
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [
-      vue(),
+    vue(),
     VitePWA({
       strategies: 'injectManifest',
       // when using strategies 'injectManifest' you need to provide the srcDir

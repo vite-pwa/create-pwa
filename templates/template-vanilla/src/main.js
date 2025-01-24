@@ -7,7 +7,7 @@ import { initPWA } from './pwa.js'
 const app = document.querySelector('#app')
 app.innerHTML = `
   <div>
-    <a href="https://vitejs.dev" target="_blank">
+    <a href="https://vite.dev" target="_blank">
       <img src="${appLogo}" class="logo" alt="Vite PWA logo" />
     </a>
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">

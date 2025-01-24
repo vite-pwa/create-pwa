@@ -5,7 +5,7 @@ import PWABadge from './components/PWABadge.vue'
 
 <template>
   <div>
-    <a href="https://vitejs.dev" target="_blank">
+    <a href="https://vite.dev" target="_blank">
       <img src="/favicon.svg" class="logo" alt="Vite PWA + Vue logo" />
     </a>
     <a href="https://vuejs.org/" target="_blank">

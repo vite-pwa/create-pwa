@@ -1,8 +1,13 @@
+import type { PackageJsonEntry, PromptsData } from './types'
 import { addPackageObject } from './utils'
-import type { PromptsData } from './types'
-import { SharpIcoVersion, SharpVersion, WorkboxVersion } from './versions'
+import { PWAAssetsVersion, SharpIcoVersion, SharpVersion, WorkboxVersion } from './versions'
 
-export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: any, ignoreDevDependencies = false) {
+export function includeDependencies(
+  prompts: PromptsData,
+  npmPM: boolean,
+  pkg: any,
+  ignoreDevDependencies = false,
+) {
   const { customServiceWorker, pwaAssets } = prompts
   if (!pwaAssets) {
     addPackageObject(
@@ -13,15 +18,24 @@ export function includeDependencies(prompts: PromptsData, npmPM: boolean, pkg: a
     )
   }
 
-  if (customServiceWorker && !ignoreDevDependencies) {
-    addPackageObject(
-      'devDependencies',
-      [
+  if (!ignoreDevDependencies) {
+    const devDependencies: PackageJsonEntry[] = [
+      ['@vite-pwa/assets-generator', PWAAssetsVersion],
+      ['workbox-window', WorkboxVersion],
+    ]
+
+    if (customServiceWorker && !ignoreDevDependencies) {
+      devDependencies.push(
         ['workbox-core', WorkboxVersion],
         ['workbox-precaching', WorkboxVersion],
         ['workbox-routing', WorkboxVersion],
         ['workbox-strategies', WorkboxVersion],
-      ],
+      )
+    }
+
+    addPackageObject(
+      'devDependencies',
+      devDependencies,
       pkg,
     )
   }

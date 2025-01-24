@@ -1,9 +1,9 @@
+import type { PromptsData } from '../types'
 import { renameSync, rmSync } from 'node:fs'
 import { generateCode, parseModule } from 'magicast'
 import { addVitePlugin } from 'magicast/helpers'
-import type { PromptsData } from '../types'
-import { editFile } from '../utils'
 import { preparePWAOptions } from '../pwa'
+import { editFile } from '../utils'
 import { MagicastViteOptions } from '../vite'
 
 export function customize(prompts: PromptsData) {
@@ -40,14 +40,14 @@ export function customize(prompts: PromptsData) {
     return pwaAssets
       ? newContent.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg" />', '')
       : newContent
-        .replace(
-          '<link rel="icon" type="image/svg+xml" href="/favicon.svg" />',
-                    `    <meta name="theme-color" content="${themeColor}">
+          .replace(
+            '<link rel="icon" type="image/svg+xml" href="/favicon.svg" />',
+            `    <meta name="theme-color" content="${themeColor}">
     <link rel="icon" href="/favicon.ico" sizes="48x48">
     <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png">
 `,
-        )
+          )
   })
   editFile(`${rootPath}/src/my-element.${ts ? 't' : 'j'}s`, (content) => {
     return content.replace('Vite logo', `${name} logo`)

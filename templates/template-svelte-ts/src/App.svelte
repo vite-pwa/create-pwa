@@ -7,7 +7,7 @@
 
 <main>
   <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
+    <a href="https://vite.dev" target="_blank" rel="noreferrer">
       <img src={appLogo} class="logo" alt="App Logo" />
     </a>
     <a href="https://svelte.dev" target="_blank" rel="noreferrer">

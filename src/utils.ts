@@ -1,5 +1,5 @@
-import fs from 'node:fs'
 import type { PackageJsonEntry } from './types'
+import fs from 'node:fs'
 
 export function addPackageObject(
   key: 'scripts' | 'dependencies' | 'devDependencies' | 'overrides' | 'resolutions',

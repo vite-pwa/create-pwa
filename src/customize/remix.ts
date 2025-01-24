@@ -1,13 +1,13 @@
+import type { PackageJsonEntry, PromptsData } from '../types'
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { generateCode, parseModule } from 'magicast'
 import { addVitePlugin } from 'magicast/helpers'
-import type { PackageJsonEntry, PromptsData } from '../types'
-import { PWAAssetsVersion, RemixPWAVersion, VitePluginPWAVersion, WorkboxVersion } from '../versions'
-import { addPackageObject, editFile } from '../utils'
 import { includeDependencies } from '../dependencies'
 import { preparePWAOptions } from '../pwa'
+import { addPackageObject, editFile } from '../utils'
+import { PWAAssetsVersion, RemixPWAVersion, VitePluginPWAVersion, WorkboxVersion } from '../versions'
 import { MagicastRemixOptions } from '../vite'
 
 export function customize(prompts: PromptsData) {
@@ -97,7 +97,7 @@ export function customize(prompts: PromptsData) {
       .stringify(tsConfig, null, 2)
       .replace(
         '"noEmit": true',
-            `// Vite takes care of building everything, not tsc.
+        `// Vite takes care of building everything, not tsc.
     "noEmit": true`,
       )
   })
@@ -132,9 +132,9 @@ export function customize(prompts: PromptsData) {
   console.log('\n\nPWA configuration done. Now run:\n')
   if (rootPath !== process.cwd()) {
     console.log(
-            `  cd ${
-                cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
-            }`,
+      `  cd ${
+        cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+      }`,
     )
   }
   switch (pkgManager) {
@@ -230,18 +230,28 @@ function copyComponents(prompts: PromptsData) {
 function writeViteConfig(rootPath: string, prompts: PromptsData) {
   const viteConf = parseModule(`
 import { vitePlugin as remix } from "@remix-run/dev";
-import { installGlobals } from "@remix-run/node";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import { RemixVitePWA } from "@vite-pwa/remix";
 
-installGlobals();
+declare module "@remix-run/node" {
+  interface Future {
+    v3_singleFetch: true;
+  }
+}
 
 const { RemixVitePWAPlugin, RemixPWAPreset } = RemixVitePWA();
 
 export default defineConfig({
   plugins: [
     remix({
+      future: {
+        v3_fetcherPersist: true,
+        v3_relativeSplatPath: true,
+        v3_throwAbortReason: true,
+        v3_singleFetch: true,
+        v3_lazyRouteDiscovery: true,
+      },
       presets: [RemixPWAPreset()],
     }),
     tsconfigPaths(),

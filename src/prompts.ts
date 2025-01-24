@@ -1,5 +1,5 @@
-import { blue, cyan, green, lightBlue, lightGreen, lightRed, magenta, red, yellow } from 'kolorist'
 import type { Behavior, Framework, Strategy } from './types'
+import { blue, cyan, green, lightBlue, lightGreen, lightRed, magenta, red, yellow } from 'kolorist'
 
 export const FRAMEWORKS = (<Framework[]>[
   {

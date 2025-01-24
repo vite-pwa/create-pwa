@@ -1,5 +1,5 @@
-import { join } from 'node:path'
 import type { ExecaSyncReturnValue, SyncOptions } from 'execa'
+import { join } from 'node:path'
 import { execaCommandSync } from 'execa'
 import fs from 'fs-extra'
 import { afterEach, beforeAll, expect, it } from 'vitest'
@@ -57,7 +57,7 @@ it('prompts for the framework on not supplying a value for --template', () => {
 it('prompts for the framework on supplying an invalid template', () => {
   const { stdout } = run([projectName, '--template', 'unknown'])
   expect(stdout).toContain(
-        `"unknown" isn't a valid template. Please choose from below:`,
+    `"unknown" isn't a valid template. Please choose from below:`,
   )
 })
 
