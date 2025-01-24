@@ -1,15 +1,15 @@
+import type { PackageJsonEntry, PromptsData } from '../types'
 import fs from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { generateCode, parseModule } from 'magicast'
 import { addVitePlugin } from 'magicast/helpers'
-import type { PackageJsonEntry, PromptsData } from '../types'
-import { addPackageObject, editFile } from '../utils'
+import { detect } from 'package-manager-detector'
 import { includeDependencies } from '../dependencies'
 import { preparePWAOptions } from '../pwa'
-import { MagicastSvelteKitOptions } from '../vite'
-import { detect } from 'package-manager-detector'
+import { addPackageObject, editFile } from '../utils'
 import { PWAAssetsVersion, SvelteKitPWAVersion, VitePluginPWAVersion, WorkboxVersion } from '../versions'
+import { MagicastSvelteKitOptions } from '../vite'
 
 export async function customize(prompts: PromptsData) {
   const {
@@ -29,12 +29,12 @@ export async function customize(prompts: PromptsData) {
     const appDts = fs.readFileSync(path.resolve(rootPath, 'src', 'app.d.ts'), 'utf-8')
     fs.writeFileSync(
       path.resolve(rootPath, 'src', 'app.d.ts'),
-            `import 'vite-plugin-pwa/svelte';
+      `import 'vite-plugin-pwa/svelte';
 import 'vite-plugin-pwa/info';
 import 'vite-plugin-pwa/pwa-assets';
 
 ${appDts}`,
-            'utf-8',
+      'utf-8',
     )
   }
 
@@ -146,9 +146,9 @@ ${appDts}`,
   console.log('\n\nPWA configuration done. Now run:\n')
   if (rootPath !== process.cwd()) {
     console.log(
-        `  cd ${
-            cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
-        }`,
+      `  cd ${
+        cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName
+      }`,
     )
   }
   switch (pkgManager) {
@@ -193,14 +193,14 @@ function copyPWABadge(ts: boolean, jsTs: boolean, prompts: PromptsData) {
         'const { needRefresh, updateServiceWorker } = useRegisterSW({',
       )
       .replace('offlineReady.set(false)', '')
-        .replace(
-            'let toast = $derived($offlineReady || $needRefresh)',
-            'let toast = $derived($needRefresh)',
-        )
-        .replace(
-            'let message = $derived($offlineReady ? \'App ready to work offline\' : ($needRefresh ? \'New content available, click on reload button to update.\' : \'\'))',
-            'let message = $derived($needRefresh ? \'New content available, click on reload button to update.\' : \'\')',
-        )
+      .replace(
+        'let toast = $derived($offlineReady || $needRefresh)',
+        'let toast = $derived($needRefresh)',
+      )
+      .replace(
+        'let message = $derived($offlineReady ? \'App ready to work offline\' : ($needRefresh ? \'New content available, click on reload button to update.\' : \'\'))',
+        'let message = $derived($needRefresh ? \'New content available, click on reload button to update.\' : \'\')',
+      )
   }
 
   if (reloadSW) {

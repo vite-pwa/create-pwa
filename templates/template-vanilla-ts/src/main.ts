@@ -7,7 +7,7 @@ import { initPWA } from './pwa.ts'
 const app = document.querySelector<HTMLDivElement>('#app')!
 app.innerHTML = `
   <div>
-    <a href="https://vitejs.dev" target="_blank">
+    <a href="https://vite.dev" target="_blank">
       <img src="${appLogo}" class="logo" alt="App logo" />
     </a>
     <a href="https://www.typescriptlang.org/" target="_blank">

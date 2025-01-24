@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-      vue(),
+    vue(),
     VitePWA({
       strategies: 'injectManifest',
       // when using strategies 'injectManifest' you need to provide the srcDir

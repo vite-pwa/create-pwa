@@ -2,7 +2,7 @@
   "name": "@vite-pwa/create-pwa",
   "type": "module",
   "version": "0.5.0",
-  "packageManager": "pnpm@9.12.3",
+  "packageManager": "pnpm@9.15.4",
   "description": "PWA Templates",
   "author": "antfu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -36,7 +36,7 @@
     "templates"
   ],
   "engines": {
-    "node": "^18.0.0 || >=20.0.0"
+    "node": "^18.0.0 || ^20.0.0 || >=22.0.0"
   },
   "scripts": {
     "dev": "unbuild --stub",
@@ -47,7 +47,7 @@
     "release": "bumpp && npm publish"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.16.1",
+    "@antfu/eslint-config": "^3.16.0",
     "@antfu/ni": "^0.21.12",
     "@types/cross-spawn": "^6.0.6",
     "@types/fs-extra": "^11.0.4",
@@ -56,15 +56,15 @@
     "@types/prompts": "^2.4.9",
     "bumpp": "^9.4.1",
     "cross-spawn": "^7.0.3",
-    "eslint": "^9.2.0",
-    "eslint-plugin-antfu": "^2.1.2",
+    "eslint": "^9.18.0",
+    "eslint-plugin-antfu": "^2.7.0",
     "kolorist": "^1.8.0",
     "magicast": "^0.3.4",
     "minimist": "^1.2.8",
-    "package-manager-detector": "^0.2.2",
+    "package-manager-detector": "^0.2.8",
     "prompts": "^2.4.2",
     "tsx": "^4.9.1",
-    "typescript": "^5.6.3",
+    "typescript": "^5.7.3",
     "unbuild": "^2.0.0",
     "vitest": "^1.6.0"
   }

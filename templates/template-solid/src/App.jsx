@@ -2,7 +2,6 @@ import { createSignal } from 'solid-js'
 import solidLogo from './assets/solid.svg'
 import appLogo from '/favicon.svg'
 import PWABadge from './PWABadge.jsx'
-
 import './App.css'
 
 function App() {
@@ -11,7 +10,7 @@ function App() {
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
+        <a href="https://vite.dev" target="_blank">
           <img src={appLogo} class="logo" alt="App logo" />
         </a>
         <a href="https://solidjs.com" target="_blank">

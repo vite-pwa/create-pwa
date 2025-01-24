@@ -1,9 +1,9 @@
+import type { PromptsData } from '../types'
 import { renameSync, rmSync } from 'node:fs'
 import { generateCode, parseModule } from 'magicast'
 import { addVitePlugin } from 'magicast/helpers'
-import type { PromptsData } from '../types'
-import { editFile } from '../utils'
 import { preparePWAOptions } from '../pwa'
+import { editFile } from '../utils'
 import { MagicastViteOptions } from '../vite'
 
 export function customize(prompts: PromptsData) {
@@ -19,7 +19,7 @@ export function customize(prompts: PromptsData) {
     pwaAssets,
   } = prompts
   const ts = framework === 'vanilla-ts'
-  editFile(`${rootPath}/${ts ? 'src/' : ''}pwa.${ts ? 't' : 'j'}s`, (content) => {
+  editFile(`${rootPath}/src/pwa.${ts ? 't' : 'j'}s`, (content) => {
     let newContent = content
       .replace('OFFLINE_COMMENT', `${offline ? 'comment out the next 2 lines to show offline ready prompt' : 'uncomment the next 2 lines to hide offline ready prompt'}`)
 
@@ -52,16 +52,16 @@ export function customize(prompts: PromptsData) {
     return pwaAssets
       ? newContent.replace('<link rel="icon" type="image/svg+xml" href="/favicon.svg" />', '')
       : newContent
-        .replace(
-          '<link rel="icon" type="image/svg+xml" href="/favicon.svg" />',
-        `    <meta name="theme-color" content="${themeColor}">
+          .replace(
+            '<link rel="icon" type="image/svg+xml" href="/favicon.svg" />',
+            `    <meta name="theme-color" content="${themeColor}">
     <link rel="icon" href="/favicon.ico" sizes="48x48">
     <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png">
 `,
-        )
+          )
   })
-  editFile(`${rootPath}/${ts ? 'src/' : ''}/main.${ts ? 't' : 'j'}s`, (content) => {
+  editFile(`${rootPath}/src/main.${ts ? 't' : 'j'}s`, (content) => {
     return content
       .replace('Vite VanillaJS PWA', `${name}`)
       .replace('Vite TypeScript PWA', `${name}`)
@@ -69,12 +69,12 @@ export function customize(prompts: PromptsData) {
   })
   if (customServiceWorker) {
     const toDelete = prompt ? 'claims' : 'prompt'
-    rmSync(`${rootPath}/${ts ? 'src/' : ''}service-worker/${toDelete}-sw.${ts ? 't' : 'j'}s`)
+    rmSync(`${rootPath}/src/service-worker/${toDelete}-sw.${ts ? 't' : 'j'}s`)
     const toRename = prompt ? 'prompt' : 'claims'
-    renameSync(`${rootPath}/${ts ? 'src/' : ''}service-worker/${toRename}-sw.${ts ? 't' : 'j'}s`, `${rootPath}/${ts ? 'src/' : ''}service-worker/sw.${ts ? 't' : 'j'}s`)
+    renameSync(`${rootPath}/src/service-worker/${toRename}-sw.${ts ? 't' : 'j'}s`, `${rootPath}/src/service-worker/sw.${ts ? 't' : 'j'}s`)
   }
   else {
-    rmSync(`${prompts.rootPath}/${ts ? 'src/' : ''}service-worker`, { recursive: true })
+    rmSync(`${prompts.rootPath}/src/service-worker`, { recursive: true })
   }
   const viteConf = parseModule(`
 import { defineConfig } from 'vite'
@@ -90,17 +90,17 @@ export default defineConfig({})
     options: preparePWAOptions(
       ts,
       prompts,
-`${ts ? 'src/' : ''}service-worker`,
-{
-  workbox: {
-    globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-    cleanupOutdatedCaches: true,
-    clientsClaim: true,
-  },
-  injectManifest: {
-    globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
-  },
-},
+      'src/service-worker',
+      {
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+          cleanupOutdatedCaches: true,
+          clientsClaim: true,
+        },
+        injectManifest: {
+          globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
+        },
+      },
     ),
   })
   editFile(`${rootPath}/vite.config.${ts ? 't' : 'j'}s`, () => {

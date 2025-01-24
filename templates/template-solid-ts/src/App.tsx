@@ -2,7 +2,6 @@ import { createSignal } from 'solid-js'
 import solidLogo from './assets/solid.svg'
 import appLogo from '/favicon.svg'
 import PWABadge from './PWABadge.tsx'
-
 import './App.css'
 
 function App() {

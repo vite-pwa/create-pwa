@@ -1,6 +1,6 @@
 # Pending tasks
 
-- [ ] Unify templates: right now `vanilla` and `vanilla-ts` including stuff differently 
+- [ ] Unify templates: right now `vanilla` and `vanilla-ts` including stuff differently
 - [ ] Extract utilities from vanilla customizations to manipulate stuff: for example `vite.config.[j|t]s`
 - [x] `vanilla` and `vanilla-ts` templates
 - [x] `vue` and `vue-ts` templates
