@@ -45,6 +45,10 @@ PWA Templates
 
 ## 🦄 Usage
 
+> Version v0.7.0: updated all the templates to use **Vite 6**, including also the latest frameworks changes.
+
+> Use version v0.6.0 for **Vite 5** and previous versions of the frameworks.
+
 Since the package name begins with `create-`, it is considered a project generator and can be run simply as `@vite-pwa/pwa`.
 
 This command launches an interactive questionnaire in the command line for configuring different parts of the project.
