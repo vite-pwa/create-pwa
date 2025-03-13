@@ -14,7 +14,7 @@ To develop and test the `@vite-pwa/create-pwa` package:
 
 2. Ensure using the latest Node.js (^18.0.0 || >=20.0.0)
 
-3. `@vite-pwa/create-pwa` uses pnpm v9. If you are working on multiple projects with different versions of pnpm, it's recommended to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
+3. `@vite-pwa/create-pwa` uses pnpm v10. If you are working on multiple projects with different versions of pnpm, it's recommended to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
 
 4. Check out a branch where you can work and commit your changes:
 ```shell
