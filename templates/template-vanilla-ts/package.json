@@ -9,10 +9,10 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@vite-pwa/assets-generator": "^0.2.6",
-    "typescript": "~5.7.2",
-    "vite": "^6.0.11",
-    "vite-plugin-pwa": "^0.21.1",
+    "@vite-pwa/assets-generator": "^1.0.1",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9",
+    "vite-plugin-pwa": "^1.1.0",
     "workbox-window": "^7.3.0"
   }
 }

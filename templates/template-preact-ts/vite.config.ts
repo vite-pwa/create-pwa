@@ -5,7 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-      preact(),
+    preact(),
     VitePWA({
       strategies: 'generateSW',
       // when using strategies 'injectManifest' you need to provide the srcDir

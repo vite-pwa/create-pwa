@@ -9,12 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "lit": "^3.1.2"
+    "lit": "^3.3.1"
   },
   "devDependencies": {
-    "@vite-pwa/assets-generator": "^0.2.6",
-    "vite": "^6.0.11",
-    "vite-plugin-pwa": "^0.21.1",
+    "@vite-pwa/assets-generator": "^1.0.1",
+    "vite": "^7.1.9",
+    "vite-plugin-pwa": "^1.1.0",
     "workbox-window": "^7.3.0"
   }
 }
