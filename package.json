@@ -47,16 +47,16 @@
     "release": "bumpp"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.10.1",
-    "@antfu/ni": "^24.1.0",
+    "@antfu/eslint-config": "^5.4.1",
+    "@antfu/ni": "^26.1.0",
     "@types/cross-spawn": "^6.0.6",
     "@types/fs-extra": "^11.0.4",
     "@types/minimist": "^1.2.5",
     "@types/node": "^20.12.8",
     "@types/prompts": "^2.4.9",
-    "bumpp": "^10.1.0",
+    "bumpp": "^10.3.1",
     "cross-spawn": "^7.0.6",
-    "eslint": "^9.22.0",
+    "eslint": "^9.37.0",
     "eslint-plugin-antfu": "^3.1.1",
     "kolorist": "^1.8.0",
     "magicast": "^0.3.5",
@@ -64,7 +64,7 @@
     "package-manager-detector": "^1.0.0",
     "prompts": "^2.4.2",
     "tsx": "^4.19.3",
-    "typescript": "^5.8.2",
+    "typescript": "~5.9.3",
     "unbuild": "^3.5.0",
     "vitest": "^3.0.8"
   }
