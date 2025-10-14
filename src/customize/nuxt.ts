@@ -348,9 +348,6 @@ function prepareNuxtConfV4(customServiceWorker: boolean): ReturnType<typeof pars
   return customServiceWorker
     ? parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future: {
-    compatibilityVersion: 4
-  },
   typescript: {
     tsConfig: {
       exclude: ['../app/service-worker'],
@@ -366,9 +363,6 @@ export default defineNuxtConfig({
 `)
     : parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future: {
-    compatibilityVersion: 4
-  },
   devtools: { enabled: true },
   nitro: {
     prerender: {
