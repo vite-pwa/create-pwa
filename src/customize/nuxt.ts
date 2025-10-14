@@ -173,6 +173,9 @@ function createNuxtConf(prompts: PromptsData, v4: boolean) {
       type: 'module',
     },
   })
+  // enable _payload.json for workbox: will be ignored when using injectManifest
+  // custom sw templates registering the proper urlManipulation
+  pwaOptions.experimental = { enableWorkboxPayloadQueryParams: true }
   pwaOptions.registerWebManifestInRouteRules = true
   if (reloadSW || installPWA) {
     pwaOptions.client = {}
