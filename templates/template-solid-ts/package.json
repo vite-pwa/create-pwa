@@ -13,7 +13,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.6.2",
-    "@vite-pwa/assets-generator": "^1.0.1",
+    "@vite-pwa/assets-generator": "^1.0.2",
     "typescript": "~5.9.3",
     "vite": "^7.1.9",
     "vite-plugin-solid": "^2.11.9",
