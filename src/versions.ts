@@ -1,7 +1,7 @@
 export const WorkboxVersion = '^7.3.0'
 export const VitePluginPWAVersion = '^1.1.0'
 export const PWAAssetsVersion = '^1.0.2'
-export const NuxtPWAModuleVersion = '^1.0.5'
+export const NuxtPWAModuleVersion = '^1.0.6'
 export const SvelteKitPWAVersion = '^1.0.1'
 export const RemixPWAVersion = '^0.2.0'
 export const TypeScriptVersion = '~5.9.3'
