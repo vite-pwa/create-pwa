@@ -52,6 +52,13 @@ export const FRAMEWORKS = (<Framework[]>[
         name: 'custom-nuxt',
         display: 'Nuxt ↗',
         color: lightGreen,
+        customCommand: 'npx create-nuxt@latest TARGET_DIR',
+        enabled: true,
+      },
+      /* old Nuxt v3 and v4-compat templates {
+        name: 'custom-nuxt',
+        display: 'Nuxt ↗',
+        color: lightGreen,
         customCommand: 'npm exec nuxi init TARGET_DIR',
         enabled: true,
       },
@@ -61,7 +68,7 @@ export const FRAMEWORKS = (<Framework[]>[
         color: cyan,
         customCommand: 'npx nuxi@latest init -t v4-compat TARGET_DIR',
         enabled: true,
-      },
+      }, */
     ],
   },
   {

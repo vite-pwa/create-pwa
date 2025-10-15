@@ -31,12 +31,18 @@ export async function customize(prompts: PromptsData) {
     case 'svelte-ts':
       await import('./svelte').then(({ customize }) => customize(prompts))
       break
+    // Nuxt v4
+    case 'custom-nuxt':
+      await import('./nuxt').then(({ customize }) => customize(prompts, true))
+      break
+      /* old Nuxt v3 and v4-compat templates
     case 'custom-nuxt':
       await import('./nuxt').then(({ customize }) => customize(prompts, false))
       break
     case 'custom-nuxt-v4':
       await import('./nuxt').then(({ customize }) => customize(prompts, true))
       break
+*/
     case 'custom-remix':
       await import('./remix').then(({ customize }) => customize(prompts))
       break

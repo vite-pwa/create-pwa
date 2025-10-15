@@ -9,14 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "solid-js": "^1.9.4"
+    "solid-js": "^1.9.9"
   },
   "devDependencies": {
-    "@vite-pwa/assets-generator": "^0.2.6",
-    "typescript": "~5.7.2",
-    "vite": "^6.0.11",
-    "vite-plugin-solid": "^2.11.0",
-    "vite-plugin-pwa": "^0.21.1",
+    "@types/node": "^24.6.2",
+    "@vite-pwa/assets-generator": "^1.0.2",
+    "typescript": "~5.9.3",
+    "vite": "^7.1.9",
+    "vite-plugin-solid": "^2.11.9",
+    "vite-plugin-pwa": "^1.1.0",
     "workbox-window": "^7.3.0"
   }
 }

@@ -173,6 +173,9 @@ function createNuxtConf(prompts: PromptsData, v4: boolean) {
       type: 'module',
     },
   })
+  // enable _payload.json for workbox: will be ignored when using injectManifest
+  // custom sw templates registering the proper urlManipulation
+  pwaOptions.experimental = { enableWorkboxPayloadQueryParams: true }
   pwaOptions.registerWebManifestInRouteRules = true
   if (reloadSW || installPWA) {
     pwaOptions.client = {}
@@ -348,9 +351,6 @@ function prepareNuxtConfV4(customServiceWorker: boolean): ReturnType<typeof pars
   return customServiceWorker
     ? parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future: {
-    compatibilityVersion: 4
-  },
   typescript: {
     tsConfig: {
       exclude: ['../app/service-worker'],
@@ -366,9 +366,6 @@ export default defineNuxtConfig({
 `)
     : parseModule(`// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future: {
-    compatibilityVersion: 4
-  },
   devtools: { enabled: true },
   nitro: {
     prerender: {
