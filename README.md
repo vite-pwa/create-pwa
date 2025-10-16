@@ -45,7 +45,7 @@ PWA Templates
 
 ## 🦄 Usage
 
-> Version v1.0.1: updated all the templates to use **Vite 7**, including also the latest frameworks changes.
+> Version v1.0.0: updated all the templates to use **Vite 7**, including also the latest frameworks changes.
 
 > Version v0.6.0: updated all the templates to use **Vite 6**, including also the latest frameworks changes.
 
@@ -85,8 +85,9 @@ Our plan is to release the first version when all Vite templates are ready:
 - [x] `SolidJS` and `SolidJS + TypeScript` templates
 
 Later we will add support for meta-frameworks:
-- [x] `Nuxt 3` template (from `v0.1.0`): from version `v1.0.0`, only Nuxt v4 template
-- [x] `Nuxt 3 Compatibility Version 4 (Nuxt 4)` template (from `v0.4.0`)
+- [x] `Nuxt 4` template (from `v1.0.0`)
+- [x] `Nuxt 3` template (from `v0.1.0`): from version `v1.0.0` (deprecated)
+- [x] `Nuxt 3 Compatibility Version 4 (Nuxt 4)` template (from `v0.4.0`)  (deprecated)
 - [x] `SvelteKit` template (from `v0.2.0`)
 - [ ] `Astro` template
 - [x] `Remix` template (from `v0.3.0`)
