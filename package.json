@@ -28,11 +28,11 @@
     "template"
   ],
   "bin": {
-    "create-pwa": "index.js"
+    "create-pwa": "./bin/index.js"
   },
   "files": [
     "dist",
-    "index.js",
+    "bin/index.js",
     "templates"
   ],
   "engines": {
