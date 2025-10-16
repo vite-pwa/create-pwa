@@ -23,7 +23,7 @@ PWA Templates
 
 <p align="center">
   <a href="https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg">
-    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg'/>
+    <img src='https://cdn.jsdelivr.net/gh/antfu/static/sponsors.svg' alt="Anthony Fu's sponsors"/>
   </a>
 </p>
 
@@ -34,7 +34,7 @@ PWA Templates
 - 🔩 **Extensible**: expose the full ability to customize the behavior of the plugin
 - 🦾 **Type Strong**: written in [TypeScript](https://www.typescriptlang.org/)
 - 🔌 **Offline Support**: generate service worker with offline support (via Workbox)
-- ⚡ **Fully tree shakable**: auto inject Web App Manifest
+- ⚡ **Fully tree shakable**: auto-inject Web App Manifest
 - 💬 **Prompt for new content**: built-in support for Vanilla JavaScript, Vue 3, React, Svelte, SolidJS and Preact
 - ⚙️ **Stale-while-revalidate**: automatic reload when new content is available
 - ✨ **Static assets handling**: configure static assets for offline support
@@ -85,7 +85,7 @@ Our plan is to release the first version when all Vite templates are ready:
 - [x] `SolidJS` and `SolidJS + TypeScript` templates
 
 Later we will add support for meta-frameworks:
-- [x] `Nuxt 3` template (from `v0.1.0`): from version 1.0.0, only Nuxt v4 template
+- [x] `Nuxt 3` template (from `v0.1.0`): from version `v1.0.0`, only Nuxt v4 template
 - [x] `Nuxt 3 Compatibility Version 4 (Nuxt 4)` template (from `v0.4.0`)
 - [x] `SvelteKit` template (from `v0.2.0`)
 - [ ] `Astro` template
